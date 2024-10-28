@@ -1,0 +1,162 @@
+01_Spring Framework.pdf
+
+Framework 와 Library
+- Framework는 집과 같은 것이어서 기본구조와 뼈대를 제공하는 틀(바꾸기 어려움)
+- Library는 집내부의 가구같은 것이어서 자주 사용되는 기능을 모아둔 코드의 집합(수정 용이)
+ex) 라이브러리 예시 : lombok
+
+API(Application Programming Interface)
+- 소프트웨어 간 상호작용을 정의하는 규약
+ex) (사용자) 중구의 위치(위도, 경도)를 요청으로 보냄 
+     -> (기상청) 그 위치에 맞는 오늘의 날씨를 응답
+
+우리는 Spring Framework를 사용할 것임!
+- 전자정부 표준 프레임워크 (Spring MVC Project 기반 프레임워크)
+
+Connection - 생성 / 반환
+DML - 트랜젝션 제어처리
+-> 위와 같은 것을 알아서 처리해 줌!!!
+
+Spring Framework : https://spring.io/
+1. Spring MVC (legacy[유산]) -> 설정이 굉장히 복잡함...!
+  - 전자정부 프레임워크(현재 Spring Boot로 바뀌는 추세)
+2. Spring Boot
+
+(★★) Spring Framework의 주요 특징(Spring MVC, Spring Boot에 모두 적용)
+1. IOC (Inversion of Control) 제어반전 : 이전까진 new 객체( )를 이용했으나,
+    객체의 생성부터 모든 생명주기의 관리까지 프레임워크가 주도
+    (Spring Container가 만들어둔 객체를 필요할 때 얻어와서 사용)
+2. DI (Dependency Injection) 의존성 주입 : 개발자가 직접 객체를 생성하지 않고
+    Spring Container가 만들어둔 객체를 필요한 위치에서 주입함
+    (IOC와 세트로 엮어서 정리)
+3. POJO (Plain Old Java Object) : 일반적인 자바 객체(POJO)를 사용할 수 있도록 지원
+4. AOP (Aspect Oriented Programming) 관점 지향 프로그래밍 : 로깅, 보안, 트랜잭션 관리 등
+    공통관심사를 분리하여 코드중복을 줄이고 유지보수성 향상시키는 기능 지원!
+  - @Transactional 어노테이션 (DML이 이용된 서비스로직에서 커밋, 롤백 등을 지원해줌)
+5. Spring MVC : MVC 디자인 패턴을 적용할 수 있는 어노테이션 지원
+  - Model(Service/DAO/DTO), View(jsp, html), Controller (Spring에서는 jsp를 안 씀)
+  - @Controller, @Service, @Repository(DAO)
+6. PSA (Portable Service Abstraction) : 다른 여러 모듈을 사용함에 있어 별도의 추상화 레이어를
+    제공하여 특정 기술에 종속되지 않으면서 다양한 기술 스택을 쉽게 사용가능
+ex) Java <-> JDBC Interface
+             -> DB(Oracle) -> OJDBC
+             -> DB(MySql) -> MYSQL JDBC
+
+Spring Container 구성 모듈 (기본 구성) 중 Core Container
+  - (★) Bean : Spring이 만든 객체 (개발자가 만든 객체는 인스턴스 였음)
+  - Context : Bean이 굴러가기 위한 환경 제공
+
+Spring Container 구성 모듈 중 Data Access/Integration
+  - ORM : 데이터베이스를 객체로 변환시킬 수 있는 기술 (중 JPA가 유명)
+    (우린 MyBatis를 이용할 것임!!, 한국에선 MyBatis가 아직 추세임)
+  - OXM : XML에 있는 데이터 처리
+  - JMS : 메시지에 대한 처리
+
+Spring Container 구성 모듈 중 Web (MVC / Remoting)
+  - Portlet : 웹페이지를 모듈화
+  - Struts : 웹 어플리케이션을 구조화
+
+Spring Container 구성 모듈 중 AOP(Aspect Oriented Programming)
+
+Spring Container 구성 모듈 중 Test : JUnit 과 관련된 기능들이 모여있음 (품질관리 부서정도?)
+
+(★★★) Spring MVC 요청 처리과정 : Dispatcher Servlet이 중앙에서 제어를 다 하네...
+ViewResolver : 컨트롤러의 처리 결과를 생성할 View를 결정
+  - Spring Boot에서는 자동설정(접두사, 접미사)이 되어 있음
+  - Controller가 전달받은 리턴 값을 기준으로 뷰를 결정하는데, Controller 클래스의 메서드의
+    반환형이 응답 페이지 경로가 될 것임..!! (String 형)
+  - 자동설정 된 접두사 : src/main/resources(classpath)/templates/
+  - 자동설정 된 접미사 : .html
+
+---------------------------------------------------------------------------------------------------
+
+02_Spring IOC/DI.pdf
+
+(IOC 관련) @Component : 별다른 역할이 없는 일반적인 Bean 객체
+(DI 관련) @Autowired : 정밀한 의존 관계 주입이 필요한 경우 -> 앞으로 자주쓰일 예정
+
+---------------------------------------------------------------------------------------------------
+
+03_Spring Boot.pdf
+
+빌드 도구(Maven, Gradle 등)를 이용 (우린 Gradle를 사용할 것임!!)
+
+---------------------------------------------------------------------------------------------------
+
+04_Spring Boot 개발 환경 설정.pdf
+
+https://spring.io/tools에 들어가서 파일 다운받기
+lombok.jar 파일을 sts-4.26.0.RELEASE폴더 안에 붙여넣기
+shiht 우클릭 -> 여기에 PowerShell창 열기
+java -jar lo : tab 키 눌러서 lombok 실행(자동완성)
+(자동완성된 형태) java -jar .\lombok.jar
+
+keep Spring Tool Suite 4 ~~체크하고 Proceed 클릭
+
+SpringToolSuite4 파일 실행 후
+Window - Show View -> Console, Progress 열기
+Progress에서 연산하는 거 없을 때 프로젝트 내부에서 수정하는 걸 추천
+
+3. DevStyle (이클립스 테마) 설치는 하지말기!
+
+---------------------------------------------------------------------------------------------------
+
+05_Spring Starter를 이용한 프로젝트 생성.pdf
+-> 그대로 하지는 않고 조금 변경할 예정 (https://start.spring.io 에 들어가서 만들 수도 있음)
+
+경로로 요청 보내서 작성한 데이터들로 만들어진 프로젝트를 다시 가져오는 방식임
+
+new Spring Starter Project
+Name : demoProject1
+Type : Gradle - Groovy(자바언어랑 동일코드) / Packaging : Jar
+Java Version : 21(변경) / Language : Java
+Group : edu.kh(변경)      (배포시 도메인, 보통 회사명을 작성, 대분류의 개념)
+Artifact : 변경X
+Version : 변경X
+Description : 변경X
+Package : edu.kh.demo
+   프로젝트 기본 패키지 3레벨 (Group + Artifact로 작성, 완전동일할 필요는 없음)
+
+Next 선택 -> Dependencies (사용할 외부라이브러리들을 말함)
+
+Spring Boot Version : SNAPSHOT, RC1 을 뺀 기본값(변경안해도 됨)
+체크할 목록(demoProject1 사용할 외부 라이브러리)
+1. Spring Boot DevTools (자동 재시작, 라이브 리로드를 주로 사용...?)
+2. Lombok
+3. Spring Configuration Processor
+4. Spring Web
+5. Thymeleaf (html 포멧)
+(추후에 다른 라이브러리들도 추가할 예정)
+
+Next 선택 (요청보내는 페이지) (not 중요) - Finish 선택
+Progress 탭에서 No operation to display at this time 뜰 때까지 대기
+위 문구 나타난 후 Package Explorer 클릭하면 다양한 폴더/파일 생겨있음!
+
+application.properties 저장할 때 Save as UTF-8 선택
+
+---------------------------------------------------------------------------------------------------
+
+06_Spring Boot 프로젝트, 파일 구조 파악.pdf
+
+src/main/resources/templates : ViewResolver가 접근할 HTML(응답페이지)이 모여있는 곳
+src/main/resources/static : 정적 리소스들 이 모여있는 곳(css, js, images ...)
+build.gradle 파일 열어보면 dependencies에 있는 부분을 MVN REPOSITORY에서 다운로드해서
+Project and External Dependendices에 집어넣음!
+Project 우클릭 Gradle - Refresh Gradle Project 하면 자동으로 필요한 파일 다운로드됨!
+
+ctrl f11 - Spring Boot App
+
+크롬 url에 localhost 적은 후 enter 클릭!
+(Spring Boot 프로젝트에서는 실행해도 서버를 직접 띄워주지 않음!)
+
+Spring Boot에서 자동으로 메인페이지로 삼는 곳
+-> src/main/resources/templates(관례) 혹은 ~~/static 에서 index.html
+
+Handler Mapping : Bean객체를 살핌(Controller 가 현재 있음)
+-> @Controller 가 써있는 class 안에 /test 처리하는 메서드를 찾음!
+-> Dispatcher Servlet한테 돌려줌
+-> Dispatcher Servlet은 그 Controller로 요청을 보냄
+-> Controller는 처리하고 return 구문에 경로 작성하여 Dispatcher Servlet한테 돌려줌
+-> Dispatcher Servlet은 ViewResolver에게 위 return 구문을 보냄
+-> ViewResolver는 알맞은 경로를 찾아서 View를 선택하여 Dispatcher Servlet한테 돌려줌
+-> Dispatcher Servlet은 Client 에게 그 View를 보여줌(Response)
