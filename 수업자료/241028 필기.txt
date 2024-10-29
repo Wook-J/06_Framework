@@ -31,8 +31,8 @@ Spring Framework : https://spring.io/
     (IOC와 세트로 엮어서 정리)
 3. POJO (Plain Old Java Object) : 일반적인 자바 객체(POJO)를 사용할 수 있도록 지원
 4. AOP (Aspect Oriented Programming) 관점 지향 프로그래밍 : 로깅, 보안, 트랜잭션 관리 등
-    공통관심사를 분리하여 코드중복을 줄이고 유지보수성 향상시키는 기능 지원!
-  - @Transactional 어노테이션 (DML이 이용된 서비스로직에서 커밋, 롤백 등을 지원해줌)
+    "공통관심사"를 분리하여 코드중복을 줄이고 유지보수성 향상시키는 기능 지원!
+  - @Transactional (클래스 상단기재) (DML이 이용된 서비스로직에서 커밋, 롤백 등을 지원해줌)
 5. Spring MVC : MVC 디자인 패턴을 적용할 수 있는 어노테이션 지원
   - Model(Service/DAO/DTO), View(jsp, html), Controller (Spring에서는 jsp를 안 씀)
   - @Controller, @Service, @Repository(DAO)
@@ -40,7 +40,7 @@ Spring Framework : https://spring.io/
     제공하여 특정 기술에 종속되지 않으면서 다양한 기술 스택을 쉽게 사용가능
 ex) Java <-> JDBC Interface
              -> DB(Oracle) -> OJDBC
-             -> DB(MySql) -> MYSQL JDBC
+             -> DB(MySQL) -> MYSQL JDBC
 
 Spring Container 구성 모듈 (기본 구성) 중 Core Container
   - (★) Bean : Spring이 만든 객체 (개발자가 만든 객체는 인스턴스 였음)
