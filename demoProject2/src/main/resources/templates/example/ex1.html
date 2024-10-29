@@ -110,10 +110,10 @@
 
 
   <h3>DTO가 담긴 List 출력하기</h3>
-  <table border="3" width="200" height="100" style="border-collapse: collapse;">
+  <table border="3" width="200" height="100">
     <thead>
       <tr>
-        <th>학번</th>
+        <th style="border: 2px dashed red;">학번</th>
         <th>이름</th>
         <th>나이</th>
       </tr>
@@ -129,6 +129,6 @@
   </table>
 
   <th:block th:replace="~{fragments/footer}"></th:block>
-
+  <!-- ~{}안쪽부분은 Controller에서 forward하는 것과 같은 방식으로 작성!! -->
 </body>
 </html>
