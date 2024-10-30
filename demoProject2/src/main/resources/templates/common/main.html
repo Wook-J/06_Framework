@@ -6,6 +6,9 @@
   <title>Thymeleaf</title>
 </head>
 <body>
+    <!-- ~{}안쪽부분은 Controller에서 forward하는 것과 같은 방식(접두사, 접미사)으로 작성!! -->
+  <th:block th:replace="~{fragments/temp :: nav}"></th:block>
+
   <h1>Thymeleaf</h1>
 
   <h3>1. 템플릿 엔진</h3>
@@ -29,11 +32,35 @@
     Spring Boot 에서는 JSP가 아닌 Thymeleaf 사용을 권장하고 있음.
   </pre>
 
-  <ol>
-    <li type="a"><a href="/example/ex1">타임리프 예제1</a></li>
+  <ol type="a">
+    <li><a href="/example/ex1">타임리프 예제1</a></li>
+
+    <li>
+      <form action="/example/ex2" method="post">
+        <h4>타임리프 예제2</h4>
+        이름 : <input type="text" name="inputName"> <br>
+        나이 : <input type="number" name="inputAge"> <br>
+        <br>
+        색상 :
+        Red : <input type="checkbox" name="color" value="Red">,
+        Green : <input type="checkbox" name="color" value="Green">,
+        Blue : <input type="checkbox" name="color" value="Blue"> <br>
+
+        <button>제출하기</button>
+      </form>
+    </li>
+
+    <li><a href="/example/ex3">타임리프 예제3</a></li>
+
+    <li><a href="/example/ex4">타임리프 예제4</a></li>
+
+    <li><a href="/example/ex5">타임리프 예제5</a></li>
   </ol>
 
+  <th:block th:replace="~{fragments/temp :: temp2}"></th:block>
+
   <th:block th:replace="~{fragments/footer}"></th:block>
+  <!-- ~{}안쪽부분은 Controller에서 forward하는 것과 같은 방식으로 작성!! -->
 
 </body>
 </html>

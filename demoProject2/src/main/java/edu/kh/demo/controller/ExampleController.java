@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import edu.kh.demo.model.dto.Student;
@@ -68,4 +70,72 @@ public class ExampleController {
 		// src/main/resources/templates/example/ex1.html 으로 요청 위임
 		return "example/ex1";
 	}
+	
+	@PostMapping("ex2")	// /example/ex2 POST 방식 요청을 매핑
+	public String ex2(Model model) {
+		
+		// Model : Spring 에서 데이터 전달 역할을 하는 객체
+		// -> 기본적으로 request scope 이지만 session 으로 확장 가능
+		
+		model.addAttribute("str", "<h1>테스트 중 &times; </h1>");
+		
+		// 접두사 prefix : classpath:/templates/
+		// 접미사 suffix : .html
+		// src/main/resources/templates/example/ex2.html 으로 요청 위임(forward)
+		return "example/ex2";
+	}
+	
+	@GetMapping("ex3")	// /example/ex3 GET 방식 요청을 매핑
+	public String ex3(Model model) {
+		
+		model.addAttribute("key", "제목");
+		model.addAttribute("query", "검색어");
+		
+		model.addAttribute("boardNo", 10);
+		
+		// 접두사 prefix : classpath:/templates/
+		// 접미사 suffix : .html
+		// src/main/resources/templates/example/ex3.html 으로 요청 위임(forward)
+		return "example/ex3";
+	}
+	
+	@GetMapping("ex3/{number}")
+	public String pathVariableTest( @PathVariable("number") int number) {
+		// 주소 중 {number} 부분의 값을 가져와서 매개변수로 저장하고
+		// controller 에서 사용할 수 있도록 해줌
+		// + request Scope 에 자동 세팅(★)
+		// -> 이건 좀 빡세게 익혀야 할 듯...! 하나의 메서드로 조회를 한번에 해결함...!
+		
+		log.debug("number : " + number);
+		
+		// src/main/resources/templates/example/testResult.html 으로 요청 위임(forward)
+		return "example/testResult";
+	}
+	
+	@GetMapping("ex4")	// /example/ex4 GET 방식 요청을 매핑
+	public String ex4(Model model) {
+		
+		Student std = new Student("67890", "잠만보", 22);
+		model.addAttribute("std", std);
+		
+		model.addAttribute("num", 200);
+
+		// src/main/resources/templates/example/ex4.html 으로 요청 위임(forward)
+		return "example/ex4";
+	}
+	
+	@GetMapping("ex5")	// /example/ex4 GET 방식 요청을 매핑
+	public String ex5(Model model) {
+		
+		model.addAttribute("message", "타임리프 + Javascript 사용 연습");
+		model.addAttribute("num1", 12345);
+		
+		Student std = new Student();
+		std.setStudentNo("22222");
+		model.addAttribute("std", std);
+		
+		// src/main/resources/templates/example/ex5.html 으로 요청 위임(forward)
+		return "example/ex5";
+	}
+	
 }

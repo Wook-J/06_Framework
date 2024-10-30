@@ -1,0 +1,12 @@
+properties 만드면 ctrl n -> folder 에서 만들기
+messages.properties
+우클릭 Properties 선택
+Resources - Text file encoding -> Other UTF-8
+
+ctrl + s (저장 시) save as UTF-8
+
+------------------------------------------------------------------------------
+08_MyBatis.pdf
+Java(Spring) <- MyBatis -> DB
+
+빌드 도구 : 메이븐, 그레이들
