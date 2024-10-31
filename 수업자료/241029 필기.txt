@@ -9,11 +9,14 @@ Spring -> 어노테이션 (Spring 주도하에 객체화 -> Bean)
 templates : 타임리프(Thymeleaf)를 이용할 경우 html을 모아두는 폴더
 
 new Spring Starter Project
-Name : demoProject2
+(★) Name : demoProject2
 Type: Gradle-Groovy / Packaging Jar
 Java Version 21 / Language Java
-Group edu.kh
-Package edu.kh.demo
+(★) Group edu.kh
+Artifact : Name값 그대로 들어옴
+Version : 그대로
+Description : 그대로
+(★) Package edu.kh.demo -> 241031에서는 edu.kh.todo 로 변경
 
 Next (디펜던시 추가하는 부분) 이전에 사용했던 5개 남아있음(여기서도 5개만)
 Lombok, Spring Boot DevTools, Spring Configuration Processor, Spring Web, Thymeleaf

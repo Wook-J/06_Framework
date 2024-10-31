@@ -1,0 +1,85 @@
+new Spring Starter Project
+(★) Name : demoProject2
+Type: Gradle-Groovy / Packaging Jar
+Java Version 21 / Language Java
+(★) Group edu.kh
+Artifact : Name값 그대로 들어옴
+Version : 그대로
+Description : 그대로
+(★) Package edu.kh.demo -> 241031에서는 edu.kh.todo 로 변경
+
+Next (디펜던시 추가하는 부분) 이전에 사용했던 5개 남아있음
+(기존 5개)
+  1. Lombok
+  2. Spring Boot DevTools
+  3. Spring Configuration Processor
+  4. Spring Web
+  5. Thymeleaf
+(추가할 것들 - DB연결할 때 필요)
+  (jdbc 검색) -> 6. JDBC API, 7. Oracle Driver
+  (my 검색) -> 8. MyBatis Framework
+(총 8개!)
+
+Next(요청보내는 페이지, 참고하는 주소 url -> not 중요)
+
+Finish 버튼
+
+--------------------------------------------------------------------------------------
+application.properites는 깃허브에 올릴예정인데
+여기에 오라클 DB 연결정보를 올리면 안됨(계정명 비번, 포트번호 등등)
+
+DB에 대한 연결정보는 다른 properties에 올릴거임!(config.properties)
+properites 만들 때는 ctrl + N 후 file로 검색해서 이름.확장자명 작성
+config.properties -> 우클릭 후 Properties -> Resource -> Text file encoding 선택
+ -> Other의 UTF-8
+
+09_DB 연결하기.pdf
+(2page) 1) 오라클 DB와 연결 하는 객체 설정을 config.properties 에 붙여넣기
+
+----------------------------------------------------------------------------------------
+Spring(Backend-Server)				DB-Server
+(원래 흐름)
+			SQL
+-->	│	--------------------------->		    │
+요청	│	 open Conn			    │
+	│					    │
+	│		결과			    │
+	│	<---------------------------		    │
+	│		      close Conn		    │
+
+(앞으로 흐름)
+	│     커넥션풀을 미리 만들어 놓음		    │
+	│     커넥션 1개씩 빌렸다 반납을 반복		    │
+	│     커넥션 생성 후 소멸하는 것보다		    │
+	│     성능면에서 뛰어남			    │
+	│     DBCP(DateBaseConnectionPool)를	    │
+	│     쓸 때 HikariCP를 접목			    │
+
+---------------------------------------------------------------------------------------------
+IOC/DI 
+IOC (Inversion Of Control) : 제어반전 (객체를 스프링 주도로 생성)
+DI (Dependency Injection) : 의존성 주입
+----------------------------------------------------------------------------------------------
+src/main/resources 내에
+new XML File : mybatis-config.xml
+라디오 버튼 위에꺼 누르고 next
+라디오 버튼 아래꺼(Select XML Catalog entry 체크
+  - User Specified Entries 에 config 선택하고 next
+그다음 설정 없이 finish 클릭
+
+Java의 null 과 DB의 NULL은 다름
+-> 객체 = null로 하고 DB INSERT/UPDATE/DELETE 할때 에러뜸!
+
+DB 표기법 : _ (TODO_NO, TODO_TITLE)
+Java 표기법 : CamelCase (todoNo, todoTitle)
+
+todoList/src/main/resources/mappers
+todo-mapper.xml
+mapper 파일 내 <cache-ref namespace=""/>는 생성되자마자 지우기!
+
+----------------------------------------------------------------------------------------------
+config 파일 설정이 아주 빡셈....!
+----------------------------------------------------------------------------------------------
+todoList 프로젝트 구조
+Controller -> Service(Interface, class) -> DAO(class, 앞으론 필요X) -> Mapper(Interface)
+
