@@ -51,6 +51,7 @@ public class DBConfig {
 	// -> 현재 프로젝트의 전반적인 설정과 Bean 관리에 접근할 수 있도록 해줌
 	// (주의) import org.springframework.context.ApplicationContext; (다른 클래스도 있음)
 	
+	
 	// 매서드
 	
 	/////////////// HikariCP(Connection Pool) 설정부분 ///////////////

@@ -47,6 +47,11 @@ VALUES(SEQ_TODO_NO.NEXTVAL, '테스트4', '테스트4 입니다.', DEFAULT, DEFA
 
 COMMIT;
 
+------------------------ 초기화용 ------------------------
+--DROP TABLE TB_TODO;
+--DROP SEQUENCE SEQ_TODO_NO;
+----------------------------------------------------------
+
 ----------- 여기서부터 조회위주로 진행 -------------------------------------------
 
 SELECT * FROM TB_TODO;
@@ -62,6 +67,9 @@ SELECT COUNT(*)
 FROM TB_TODO
 WHERE COMPLETE ='Y';
 
+SELECT TODO_NO, TODO_TITLE, TODO_CONTENT, COMPLETE, TO_CHAR(REG_DATE, 'YYYY-MM-DD HH24:MI:SS') "REG_DATE" 
+FROM TB_TODO
+WHERE TODO_NO=1;
 
 
 

@@ -31,7 +31,7 @@
 		왜? DBConfig.java에서 SqlSessionFactory메서드에서 별칭 지정(세팅2)함!
 		    (edu.kh.todo 패키지 이하는 모두 클래스명으로 별칭등록해둠) 
 	-->
-	<select id="selectAll" resultType="edu.kh.todo.model.dto.Todo" >
+	<select id="selectAll" resultType="Todo" >
 		SELECT 
 			TODO_NO,
 			TODO_TITLE,
@@ -78,4 +78,42 @@
 		INSERT INTO TB_TODO
 		VALUES(SEQ_TODO_NO.NEXTVAL, #{todoTitle}, #{todoContent}, DEFAULT, DEFAULT)
 	</insert>
+	
+	<!-- 할 일 상세조회 -->
+	<!-- parameterType와 resultType을 안 적어도 알아서 담아서 보내줌
+		그러나 명시적으로 작성하는 것을 권장함(코드의 가독성)
+	 -->
+	<select id="todoDetail" parameterType="_int" resultType="Todo">
+		SELECT 
+			TODO_NO,
+			TODO_TITLE,
+			TODO_CONTENT,
+			COMPLETE,
+			TO_CHAR(REG_DATE, 'YYYY-MM-DD HH24:MI:SS') "REG_DATE" 
+		FROM TB_TODO
+		WHERE TODO_NO = ${todoNo}
+		<!-- #{}, ${} 모두 가능 -> 문자열에 숫자만있으면 자동으로 바꿔 줌 
+			#{}에 홑따옴표 붙음
+		-->
+	</select>
+	
+	<!-- 완료 여부 변경 -->
+	<update id="changeComplete" parameterType="Todo">
+		UPDATE TB_TODO
+		SET COMPLETE = #{complete}
+		WHERE TODO_NO = #{todoNo}
+	</update>
+	
+	<!-- 할 일 수정 -->
+	<update id="updateTodo" parameterType="Todo">
+		UPDATE TB_TODO
+		SET TODO_TITLE = #{todoTitle}, TODO_CONTENT = #{todoContent}
+		WHERE TODO_NO = #{todoNo}
+	</update>
+	
+	<!-- 할 일 삭제 -->
+	<delete id="deleteTodo" parameterType="_int">
+		DELETE FROM TB_TODO
+		WHERE TODO_NO = ${todoNo}
+	</delete>
 </mapper>

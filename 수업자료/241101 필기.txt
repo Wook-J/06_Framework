@@ -1,0 +1,39 @@
+TodoList 구조
+(★) src/main/java : 자바코드를 모아두는 패키지
+  1. edu.kh.todo
+    (1) common
+      1) config
+    (2) controller : 클라이언트의 요청을 처리하기 위해 맨처음 만나는 코드 모음
+	주요 할 일 : 서비스에서 알맞은 메서드 호출, 메세지 세팅
+	클래스 단 : @Controller, @RequestMapping("요청주소")
+	필드 단 : @Autowired, @GetMapping("추가주소"), @PostMapping("추가주소")
+		@RequestParam, @ModelAttribute(생략가능)
+    (3) model
+      1) dao : DB에 가장 가까운 패키지 모음, STS부터는 안씀(mapper가 대체)
+	클래스 단 : @Repository
+	메서드 단 : @Autowired
+      2) dto : 객체를 뽑아오기 위해 필요한 변수 선언하는 부분
+	클래스 단 : @Getter, @Setter, @ToString, @NoArgsConstructor, @AllArgsConstructor
+      3) mapper : MyBatis 가 해당 인터페이스를 DAO로 인식하여 SQL 매핑 처리
+	클래스 단 : @Mapper
+      4) service : 데이터를 가공(MyBatis는 파라미터1개만 전달 가능)하여 mapper 호출(SQL문 수행)
+    (4) TodoListApplication.java : 서버실행을 위해 있어야 하는 자바코드
+(★) src/main/resources : 자바코드외 전반적인 파일을 모아두는 패키지
+  1. mappers : SQL문을 모아두는 폴더
+  2. templates : controller와 매핑된 html파일을 모아두는 폴더(thymeleaf 문법 사용)
+┌-----------------------------------------------------------------------------------------------┐
+	<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<link rel="stylesheet" href="/css/main.css">
+	<script src="/js/main.js"></script>
+└-----------------------------------------------------------------------------------------------┘
+    (1) common
+    (2) todo
+  3. static
+    (1) css
+    (2) js
+  4. application.properties
+  5. config.properties
+  6. mybatis-config.xml
+(★) src/test/java
+(★) build.gradle
+(★) 그 외...
