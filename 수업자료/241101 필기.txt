@@ -16,25 +16,29 @@ TodoList 구조
 	클래스 단 : @Getter, @Setter, @ToString, @NoArgsConstructor, @AllArgsConstructor
       3) mapper : MyBatis 가 해당 인터페이스를 DAO로 인식하여 SQL 매핑 처리
 	클래스 단 : @Mapper
-      4) service : 데이터를 가공(MyBatis는 파라미터1개만 전달 가능)하여 mapper 호출(SQL문 수행)
+      4) service : 데이터를 가공(MyBatis는 파라미터1개만 전달 가능)하여 mapper 호출
     (4) TodoListApplication.java : 서버실행을 위해 있어야 하는 자바코드
 
 (★) src/main/resources : 자바코드외 전반적인 파일을 모아두는 패키지
-  1. mappers : SQL문을 모아두는 폴더
+  1. mappers : SQL문을 모아두는 폴더 (mybatis 이용하므로 초기세팅 시 XML -> XML Catalog에서 설정 필요)
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
   2. templates : controller와 매핑된 html파일을 모아두는 폴더(thymeleaf 문법 사용)
+    (1) common : 흔히 사용되는 부분(main.html, footer.html)
+    (2) todo : 세부사항을 나타내는 부분(detail.html, update.html)
+
 ┌-----------------------------------------------------------------------------------------------┐
    (맨 앞부분) <html lang="en" xmlns:th="http://www.thymeleaf.org">
    (head 내부) <link rel="stylesheet" href="/css/main.css"> (classpath:/static 폴더 기준)
    (body 내부 끝부분) <script src="/js/main.js"></script>   (classpath:/static 폴더 기준)
 └-----------------------------------------------------------------------------------------------┘
-    (1) common : 흔히 사용되는 부분(main.html, footer.html)
-    (2) todo : 세부사항을 나타내는 부분(detail.html, update.html)
-┌---(body 내부) 주요 문법---------------------------------------------------------------------┐
+
+┌--------(body 내부) 주요 문법---------------------------------------------------------------------┐
    <li><a href="/example/ex1">타임리프 예제1</a></li>		a태그는 get방식
 
-   <form action="/example/ex2" method="post"></form> 	form태그는 method 수정 가능
+   <form action="/example/ex2" method="post"></form> 		form태그는 method 수정 가능
 
-   <h4 th:text="${test1}">test1 값</h4>	spring EL형식	${key} : 변수, model 등으로 세팅
+   <h4 th:text="${test1}">test1 값</h4>	spring EL형식		${key} : 변수, model 등으로 세팅
 
    <th:block th:text="${productName}">상품명</th:block>		th:block 텍스트 해석 후 사라짐
 
@@ -58,7 +62,7 @@ TodoList 구조
    <tr th:each="std : ${stdList}" th:object="${std}">		th:each 태그부터 반복
      <td th:text="*{studentNo}">학번</td>			th:object 사용 *{}
      <td th:text="*{name}">이름</td>
-     <td th:text="${std.age}">나이</td>			직접 추출 ${}
+     <td th:text="${std.age}">나이</td>				직접 추출 ${}
    </tr>
 
    <li th:text="${param.inputAge}">제출된 나이</li>		쿼리스트링에 존재하는 param 추출
@@ -70,7 +74,7 @@ TodoList 구조
    <th:block th:utext="${str}">str</th:block>			HTML 태그 해석 O
 
    <p th:text="|th:text의 str => ${str}|"></p>			변수에 저장된 값 아닌 문자열 출력가능!
-   <p> 입력 받은 이름 : [[${param.inputName}]]</p>		태그 안에 직접 작성하는 경우
+   <p> 입력 받은 이름 : [[${param.inputName}]]</p>			태그 안에 직접 작성하는 경우
 
    <h1>messages.properties 값 출력하기</h1>		src/main/resources/messages.properties 참고
    <h3 th:text="#{app.name}">앱 이름</h3>			
@@ -79,7 +83,7 @@ TodoList 구조
    <a th:href="@{/board(key=${key}, query=${query})}"></a>	/board?key=제목&query=검색어
    <a th:href="@{/example/ex3/{number}(number=${boardNo})}">	/example/ex3/10
 
-   <ul>						PathVariable : 주소 중 일부분을 변수값처럼 사용
+   <ul>							PathVariable : 주소 중 일부분을 변수값처럼 사용
      <li><a href="/example/ex3/1">/example/ex3/1</a></li>	ExampleController 참고(domoProject2)
      <li><a href="/example/ex3/2">/example/ex3/2</a></li>	@GetMapping("ex3/{number}")
      <li><a href="/example/ex3/3">/example/ex3/3</a></li>	@PathVariable("number") int number
@@ -96,26 +100,29 @@ TodoList 구조
    <h3 th:unless="${std}">std 없음...</h3>			th:unless 사용법2
 
    <th:block th:switch="${num}">				th:switch
-     <h4 th:case="100">100이다~~</h4>			th:case
-     <h4 th:case="200">200이다~~</h4>			th:case
-     <h4 th:case="300">300이다~~</h4>			th:case
+     <h4 th:case="100">100이다~~</h4>				th:case
+     <h4 th:case="200">200이다~~</h4>				th:case
+     <h4 th:case="300">300이다~~</h4>				th:case
      <h4 th:case="*">나머지...</h4>				default 나머지의 경우
    </th:block>
 
    <h4 th:text="${std.age==30} ? '서른' : '서른 아님'"></h4>	삼항 연산자 사용법(""이미 있어서 안에는 '')
    <p th:text="${member} ?: '회원 데이터 없음'"></p>		Elvis 연산자 ( ?: )
-   <p th:text="${member} ?: _">회원 데이터 없음</p>		No-Operation 연산자 ( ?: _ )
+   <p th:text="${member} ?: _">회원 데이터 없음</p>			No-Operation 연산자 ( ?: _ )
 
    <th:block th:replace="~{fragments/temp :: temp2}"></th:block>
    <th:block th:replace="~{fragments/footer}"></th:block>
     (classpath:/templates/ @@@ .html) / :: 이후에는 th:fragment="temp2" 로 작성된 경우임)
 └-----------------------------------------------------------------------------------------------┘
-  3. static
+
+  3. static : 정적 resources를 모아두는 폴더
     (1) css
     (2) js
-  4. application.properties
-  5. config.properties
-  6. mybatis-config.xml
+    (3) images
+  4. application.properties : 프로젝트 진행할 때 기본적인 세팅 정보 모음
+  5. config.properties : github에 올리지 않는 정보 모음
+  6. mybatis-config.xml : Java와 DB 간 호환(Null, 표기법) (초기세팅 시 XML -> XML Catalog에서 설정 필요)
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 
 (★) src/test/java
 (★) build.gradle
