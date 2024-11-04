@@ -22,7 +22,7 @@ public class MainController {
 	@RequestMapping("/")
 	public String mainPage(Model model) {
 		
-		log.debug("service : " + service);
+//		log.debug("service : " + service);
 		// service : edu.kh.todo.model.service.TodoServiceImpl@7355f5b8
 		
 		//----------------------- test 용 -------------------------
