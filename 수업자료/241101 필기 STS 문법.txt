@@ -209,10 +209,10 @@ public class DBConfig {
    <h4 th:classappend="red">th:classappend 테스트중...</h4>	요소에 class 속성값을 동적으로 추가
    <h4 class="red" th:classappend="deco">th:classappend 테스트중...</h4>
 
-   <!--
-     lt (less than)    :  < 기호
-     gt (greater than) :  > 기호
-   -->
+        <!--
+          lt (less than)    :  < 기호
+          gt (greater than) :  > 기호
+       -->
    <!-- th:class 는 기존의 class를 모두 갈아낌! -->
    <h4 class="deco" th:class="${num1 gt 10000} ? green : red">th:classappend 테스트중...</h4>
 
@@ -224,6 +224,14 @@ public class DBConfig {
    <ul>						11부터 시작해서 20까지 2씩 증가하며 li 태그 출력
      <li th:each="i : ${#numbers.sequence(11, 20, 2)}" th:text="|테스트 ${i}|"></li>
    </ul>
+
+        <!-- data-* 속성 (*에는 자유작성) (태그 안에 있어야 함)
+          - 데이터에 대한 확장성을 고려하여 설계된 속성
+          - js 에서 요소.dataset 을 이용해 해당 값을 얻어와 사용 가능
+          - html 작성할땐 -를 이용하고, JS에서는 CamelCase으로 자동으로 변경해줌
+          (GET 방식이면 쿼리스트링에서 얻어올 수도 있음)
+        -->
+   <button th:data-todo-no="${todo.todoNo}">완료 여부</button>	HTML -> JS로 값 가져오려는 경우
 
    <script th:inline="javascript">				타임리프에서 JS 코드를 동적으로 처리 지원
      const message = /*[[${message}]]*/ "message 값";

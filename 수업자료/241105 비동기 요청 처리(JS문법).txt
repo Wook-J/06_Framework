@@ -1,0 +1,60 @@
+HTML 에서 불러오기 편하게 하기 위해 id 속성 부여
+   + JS에서 요소 얻어오기
+┌---------(JS 주요 코드)---------------------------------------------------------------------------┐
+   // (★) 할 일 개수 관련 요소
+   const totalCount = document.querySelector("#totalCount");
+   const completeCount = document.querySelector("#completeCount");
+   const reloadBtn = document.querySelector("#reloadBtn");
+
+   // (★) 전체 Todo 개수 조회 및 출력하는 함수 정의
+   function getTotalCount(){
+     fetch("/ajax/totalCount")      // 서버로 비동기 요청 (기본 GET 방식)
+     .then(response => {            // 첫 번째 then (응답을 처리하는 역할)
+       return response.text();
+     })
+     .then(result => {              // 두 번째 then (변환된 데이터를 활용하는 역할)
+       totalCount.innerText = result;
+     })
+   };
+
+   // (★) 새로고침 버튼 클릭 시 ( 정의한 함수를 호출만 하는 경우)
+   reloadBtn.addEventListener("click", () => {
+     getTotalCount();
+     getCompleteCount();
+     selectTodoList();
+   })
+
+   // (★) 할 일 추가 버튼 클릭 시 동작
+   addBtn.addEventListener("click", ()=>{
+     if(todoTitle.value.trim().length === 0 || todoContent.value.trim().length === 0){
+       alert("제목이나 내용은 비어있을 수 없습니다!");
+       return;
+     }
+
+     // todoTitle과 todoContent 를 저장한 JS 객체 생성
+     const param = {"todoTitle" : todoTitle.value, "todoContent" : todoContent.value};
+
+     fetch("/ajax/add", {
+       method : "POST",				// POST 방식 요청
+       headers : {"Content-Type" : "application/json"},	// 요청 데이터 형식을 JSON으로 지정
+       body : JSON.stringify(param)	// param이라는 JS 객체를 JSON(String)으로 반환
+     })
+     .then(resp => resp.text())	// 반환된 값을 text로 변환
+     .then(result => {		// 첫번째 then에서 반환된 값 중 변환된 text를 result에 저장
+      
+       if(result > 0){
+         alert("추가 성공!!");
+         todoTitle.value = "";
+         todoContent.value= "";
+
+         // 할 일이 새롭게 추가되었으므로 
+         getTotalCount();		// -> 전체 Todo 개수 다시 조회
+         selectTodoList();		// -> 전체 Todo 목록 다시 조회
+
+       } else {
+         alert("추가 실패...");
+       }
+     })
+   })
+
+└--------------------------------------------------------------------------------------------------┘

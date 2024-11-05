@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -134,6 +135,21 @@ public class AjaxController {
 	@DeleteMapping("delete")
 	public int deleteTodo(@RequestBody int todoNo) {
 		return service.deleteTodo(todoNo);
+	}
+	
+	// 완료 여부 수정 (PUT 방식)
+	@ResponseBody
+	@PutMapping("changeComplete")
+	public int changeComplete(@RequestBody Todo todo) {
+		// @RequestBody 타입 객체명 : key 와 필드명이 동일하면 자동으로 세팅해줌
+		return service.changeComplete(todo);
+	}
+	
+	// 할 일 수정
+	@ResponseBody
+	@PutMapping("update")
+	public int updateTodo(@RequestBody Todo todo) {
+		return service.updateTodo(todo);
 	}
 
 }
