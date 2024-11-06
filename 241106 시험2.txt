@@ -1,0 +1,95 @@
+[DB]
+CUSTOMER_NO(PK), CUSTOMER_NAME, CUSTOMER_TEL, CUSTOMER_ADDRESS
+시퀀스 잘 되어 있음(SEQUENCE SEQ_CUSTOMER_NO)
+
+[메인 페이지 HTML] - src/main/resources/templates/index.html
+POST요청 주소 : /customer/insertCustomer
+name 속성 잘넣었음
+ThymeLeaf 안 씀 (문제 없음)
+NOT NULL 조건 충족
+
+[DTO]		- com.kh.test.customer.dto.Customer
+@AllArgsConstructor 없는 상태 (문제 없음)
+필드명 정의 잘되어있음
+
+[Controller]	- com.kh.test.customer.controller.CustomerController
+@Controller 있음
+1. @RequestMapping("customer") 없음 -> 알맞은 요청주소로 매핑 안되어 있음
+2. return 값을 뷰리졸버가 읽을 수 있도록 HTML파일 경로 설정해야 하는데
+현재 result 값은 성공한 행의 개수로 적절하지 않음(여기서 결과페이지로 forward 주소 작성 필요)
+(이 때 쿼리스트링으로 가져와야 함)
+-> String "result"는 classpath:templates/result.html 잘 전달함
+
+[Service]		- com.kh.test.customer.service.CustomerService
+인터페이스로 문제 없음
+
+[ServiceImpl]	- com.kh.test.customer.service.CustomerServiceImpl
+@Transactional에서 rollbackFor 기본 속성은 RuntimeException 발생시만 rollback하므로
+이를 그대로 사용하면 result=0일 때에도 commit 에서 바람직하지 않음
+3. private CustomerMapper mapper 에 @Autowired 하여 DI 해야하는데 하지 않음
+
+[Mapper]		- com.kh.test.customer.mapper.CustomerMapper
+문제없음 (@Mapper 잘붙어있음)
+
+[mapper.xml]	- src/main/resources/mappers/customer-mapper.xml
+4. <insert> 내 id 는 Mapper 클래스에서의 메서드명(insertCustomer)과 일치해야 하는데
+다르게 작성(insert)되어 있어서 원하는 값이 출력되지 않음
+5. xml 파일내 SQL문 작성하면서 필드값 불러올 때 DTO에 정의된 필드명을 그대로 불러와야함
+-> 단순히 name, tel, address로 불러서 원하는 값을 대입할 수 없음
+
+[결과 페이지 HTML] - src/main/resources/templates/result.html
+Controller 단에서 return 잘 작성하면 문제 없음
+-------------------------------------------------------------------------------------------------
+원인
+1. [Controller] 부분
+메인페이지 HTML에서 POST 요청주소와 현재 메서드의 매핑되는 주소와 일치해야 하는데,
+"/customer" 부분이 존재하지 않아 정상수행되지 않음
+
+2. [ServiceImpl] 부분
+필드에서 private CustomerMapper mapper 를 정상 사용하기 위해선 의존성 주입이 필요한데,
+현재 관련 어노테이션을 작성하지 않아 정상수행되지 않음
+
+3. [mapper.xml] 부분
+<insert> 내 id는 Mapper 클래스의 메서드명(insertCustomer)과 일치해야 하는데,
+현재 다르게 작성(id="insert") 되어 있어서 정상수행되지 않음
+
+4. [mapper.xml] 부분
+xml 파일 내 SQL 문을 작성하면서 필드값을 불러올 때는 DTO에 정의된 필드명을 그대로 불러와야 하는데,
+현재 name, tel, address로 작성되어 있어서 정상수행되지 않음
+
+조치내용
+1. 원인 1 관련
+클래스 선언 상단부에 있는 @Controller 아래와 같은 어노테이션 추가
+@RequestMapping("customer")
+// 클래스 상단에 추가시 Controller 내 메서드인 insertCustomer는 /customer/insertCustomer로 잘 매핑됨
+
+2. 원인 2 관련
+private CustomerMapper mapper 부분 상단에 @Autowired 어노테이션 추가
+// CustoemrMapper 인터페이스를 상속받은 자식 객체에 DI(의존성주입)
+
+3. 원인 3 관련
+<insert id="insert" parameterType="Customer"> 부분을 
+Mapper와 연결이 잘 되도록 아래와 같이 수정
+<insert id="insertCustomer" parameterType="Customer">
+// CustomerMapper 내 insertCustomer와 매핑시킴
+
+4. 원인 4 관련
+VALUES(SEQ_CUSTOMER_NO.NEXTVAL, #{name}, #{tel}, #{address})
+SQL문이 정상 수행되도록 아래와 같이 수정
+VALUES(SEQ_CUSTOMER_NO.NEXTVAL, #{customerName}, #{customerTel}, #{customerAddress})
+// DTO 내의 필드명과 동일하게 맞춰서 세팅이 잘 되게 함
+
+5. 추가 고려사항 [ServiceImpl] 내 @Transactional
+rollbackFor 기본 속성은 RuntimeException 발생시만 rollback하므로
+이를 그대로 사용하면 result=0일 때에도 commit 에서 바람직하지 않음
+아래와 같이 수정하는 것이 바람직
+@Transactional(rollbackFor=Exception.class)
+
+
+
+
+
+
+
+
+

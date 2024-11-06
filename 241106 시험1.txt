@@ -1,0 +1,55 @@
+[index.html] 메인
+	- POST 되는 요청 주소 : /student/select
+	- input의 name 속성??(DTO 클래스의 필드내 변수명과 동일해야 하지않나?)
+[Student.java] DTO
+	- stdName, stdAge, stdAddress
+[StudentController.java] Controller
+	- clsss 단에 어노테이션 없음 @Controller, @RequestMapping("student")
+	- input.html에서 name 속성을 DTO 단과 일치하게 바꾸면 문제 해결
+[classpath:/templates/student/select.html]
+	- StudentController에서 설정한 Key값을 불러와야 하는 데 다른 변수를 호출하고 있음
+	- request scope에 담은 ${key값.필드명} 으로 호출하면 됨
+원인
+1. [index.html] 
+Student.java(DTO) 에서 선언한 필드명과 다르게 name값을 설정하여 
+StudentController.java(Controller)에서 세팅이 되지 않음
+
+2. [StudentController.java]
+요청/응답 제어 역할 명시 + Bean 등록 해주는 @Controller 어노테이션이
+class 상단에 없어서 Controller 의 역할을 제대로 수행할 수 없음
+
+3. [StudentController.java]
+selectStudent 메서드 위에 PostMapping("select")만 있는 경우 요청주소가 /select 뿐이어서
+index.html에서 form태그로 POST 요청보낸 주소(/student/select)와 일치하지 않아
+알맞은 Controller의 메서드와 매칭되지 않음
+
+4. [classpath:/templates/student/select.html]
+th:text 구문에서 Controller에서 세팅한 key 값을 불러와야 하는데 다른 key 값을 사용하여
+구하고자 하는 name, age, address 값이 출력되지 않음
+
+조치내용
+1. 원인 1 관련
+[index.html] 에서 이름, 나이, 주소에 있는 input 태그의 name 속성을 아래와 같이 변경
+(DTO에 있는 변수명과 동일하게 변경)
+이름 : <input type="text" name="stdName">
+나이 : <input type="number" name="stdAge"> 
+주소 : <input type="text" name="stdAddress">
+
+2. 원인 2, 3 관련
+[StudentController.java] 에서 class 선언한 윗부분에 아래와 같은 어노테이션 추가
+@Controller
+@RequestMapping("student")
+public class StudentController {
+...
+}
+(@Controller : 컨트롤러임을 명시 및 Bean 객체로 등록)
+(@RequestMapping("요청주소") : 클래스 상단에 정의하면 그 요청주소 이하 모든 요청 받을 수 있음)
+( -> 이렇게 하면 selectStudent 메서드는 PostMapping("select")와 결합하여 /student/select 로 해석됨)
+
+3. 원인 4 관련
+h4 th:text 관련 태그안의 값을 아래와 같이 수정
+(StudentController에서 설정한 key 값과 동일한 이름으로 불러옴)
+<h4 th:text="|${stdName} 님|"></h4>
+<h4 th:text="|${stdAge}세|"></h4>
+<h4 th:text="|주소 : ${stdAddress}|"></h4>
+(model.addAttribute("key", 값) 은 Request Scope 여서 요청위임한 곳에서 불러올 수 있음)
