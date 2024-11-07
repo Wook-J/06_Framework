@@ -1,0 +1,37 @@
+(★) src/main/java.edu.kh.project
+common.config
+  - DBConfig
+  - EmailConfig
+  - SecurityConfig
+email
+  - controller.EmailController
+  - model.mapper.EmailMapper
+  - model.service.EmailService
+  - model.service.EmailServiceImpl
+main.controller.MainController
+member.controller.MemberController
+member.model
+  - dto.Member
+  - mapper.MemberMapper
+  - service.MemberService
+  - service.MemberServiceImpl
+
+(★) src/main/resources
+mappers
+  - email-mapper.xml
+  - member-mapper.xml
+templates
+  - common
+  - email
+  - member
+static : 
+  - css
+  - images
+  - js
+application.properties
+config.properties
+messages.properties
+mybatis-config.xml
+
+(★) bulid.gradle
+(★) 그 외...
