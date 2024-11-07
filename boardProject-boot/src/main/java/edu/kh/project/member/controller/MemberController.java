@@ -7,12 +7,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.service.MemberService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
@@ -56,6 +58,10 @@ public class MemberController {
 					@RequestParam(value="saveId", required=false) String saveId,
 					HttpServletResponse resp) {
 		
+		// 체크박스
+		// - 체크가 된 경우 : "on"
+		// - 체크가 안 된 경우 : null
+		
 		// 로그인 서비스 호출
 		Member loginMember = service.login(inputMember);
 		
@@ -63,11 +69,33 @@ public class MemberController {
 			ra.addFlashAttribute("message", "아이디 또는 비밀번호가 일치하지 않습니다");
 		} else {
 			// Session scope 에 loginMember 추가
-			// 1단계 : request scope 에 세팅된 상태
+			// 1단계 : request scope 에 세팅
 			model.addAttribute("loginMember", loginMember);
 			
 			// 2단계 : 클래스 위에 @SessionAttributes() 작성하여 session scope 로 이동
 			// 		   클래스 상단에 어노테이션 참고!!!
+			
+			// **************** Cookie ******************
+			// 이메일 저장
+			
+			// 쿠키 객체 생성(K:V)
+			// import jakarta.servlet.http.Cookie;
+			Cookie cookie = new Cookie("saveId", loginMember.getMemberEmail());
+			// 내부 : saveId=user01@kh.or.kr
+			
+			// 쿠키가 적용될 경로 설정
+			// -> 클라이언트가 어떤 요청을 할 때 쿠키가 첨부될 지 지정
+			
+			// ex) "/" : IP 또는 도메인 또는 localhost
+			//			--> 메인페이지 + 그 하위 주소 모두
+			cookie.setPath("/");
+			
+			// 쿠키의 만료기간 지정 (아이디 저장 체크여부)
+			if(saveId != null) cookie.setMaxAge(60*60*24*30);	// 30일(초단위)로 지정
+			else cookie.setMaxAge(0);
+			
+			// 응답 객체에 쿠키 추가 -> 클라이언트 쪽으로 전달
+			resp.addCookie(cookie);
 		}
 		
 		return "redirect:/";	// 메인페이지 재요청
@@ -84,5 +112,22 @@ public class MemberController {
 		status.setComplete();
 		
 		return "redirect:/";
+	}
+	
+	/** 회원 가입 페이지로 이동
+	 * @return
+	 */
+	@GetMapping("signup")
+	public String signupPage() {
+		return "member/signup";
+	}
+	
+	/** 이메일 중복검사 
+	 * @return
+	 */
+	@ResponseBody		// 응답 본문(fetch)으로 돌려보냄
+	@GetMapping("checkEmail")	// GET요청 /member/checkEmail
+	public int checkEmail(@RequestParam("memberEmail") String memberEmail) {
+		return service.checkEmail(memberEmail);
 	}
 }

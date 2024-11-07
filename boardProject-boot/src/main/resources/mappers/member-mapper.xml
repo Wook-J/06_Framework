@@ -15,5 +15,13 @@
 			WHERE MEMBER_EMAIL = #{memberEmail}
 			AND MEMBER_DEL_FL = 'N'
   	</select>
+  	
+  	<!-- 이메일 중복 검사  #{}는 홑따옴표 같이 써짐, ${}는 홑따옴표 안 써짐-->
+  	<select id="checkEmail" resultType="_int">
+  		SELECT COUNT(*)
+		FROM "MEMBER"
+		WHERE MEMBER_DEL_FL = 'N'
+		AND MEMBER_EMAIL = #{memberEmail}
+  	</select>
 
 </mapper>
