@@ -1,33 +1,57 @@
-(★) src/main/java.edu.kh.project
-common.config
-  - DBConfig
-  - EmailConfig
-  - SecurityConfig
+(★) src/main/java/edu.kh.project
+common
+- config
+	DBConfig
+	EmailConfig
+	SecurityConfig
 email
-  - controller.EmailController
-  - model.mapper.EmailMapper
-  - model.service.EmailService
-  - model.service.EmailServiceImpl
-main.controller.MainController
-member.controller.MemberController
-member.model
-  - dto.Member
-  - mapper.MemberMapper
-  - service.MemberService
-  - service.MemberServiceImpl
+- controller
+	EmailController
+- model
+  - mapper
+	EmailMapper
+  - service
+	EmailService
+	EmailServiceImpl
+main
+- controller
+	MainController
+member
+- controller
+	MemberController
+- model
+  - dto
+	Member
+  - mapper
+	MemberMapper
+  - service
+	MemberService
+	MemberServiceImpl
 
 (★) src/main/resources
 mappers
-  - email-mapper.xml
-  - member-mapper.xml
+	email-mapper.xml
+	member-mapper.xml
 templates
-  - common
-  - email
+- common
+	common.html
+	footer.html
+	header.html
+	main.html
+- email
+	signup.html
+- member
+	signup.html
+static
+- css
   - member
-static : 
-  - css
-  - images
-  - js
+	signup-style.css
+  - main-style.css
+- images
+- js
+  - member
+	signup.js
+  - main.js
 application.properties
 config.properties
 messages.properties
