@@ -1,4 +1,33 @@
 // 다음 주소 API
+function execDaumPostcode() {
+  new daum.Postcode({
+    oncomplete: function (data) {
+      // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+      // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+      // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+      var addr = ''; // 주소 변수
+
+      //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+      if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+        addr = data.roadAddress;
+      } else { // 사용자가 지번 주소를 선택했을 경우(J)
+        addr = data.jibunAddress;
+      }
+
+      // 우편번호와 주소 정보를 해당 필드에 넣는다.
+      document.getElementById('postcode').value = data.zonecode;
+      document.getElementById("address").value = addr;
+      // 커서를 상세주소 필드로 이동한다.
+      document.getElementById("detailAddress").focus();
+    }
+  }).open();
+}
+
+// 주소 검색 버튼 클릭 시   - 호출할 때 함수명만! 소괄호 필요없음!
+document.querySelector("#searchAddress").addEventListener("click", execDaumPostcode);
+
+
 // ----------------------------------------------
 // **** 회원 가입 유효성 검사 *****
 
@@ -145,16 +174,16 @@ sendAuthKeyBtn.addEventListener("click", () => {
 
   // *************************************
   // 비동기로 서버에서 메일보내기
-  fetch("/email/signup",{
-    method : "POST",
-    headers : {"Content-Type" : "application/json"},
-    body : memberEmail.value  // 값이 하나인 경우에는 알아서 JSON 타입으로 변환해서 보내줌!!
+  fetch("/email/signup", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: memberEmail.value  // 값이 하나인 경우에는 알아서 JSON 타입으로 변환해서 보내줌!!
   })
-  .then(resp => resp.text())
-  .then(result => {
-    if(result == 1) console.log("인증 번호 발송 성공");
-    else console.log("인증 번호 발송 실패!!!");
-  });
+    .then(resp => resp.text())
+    .then(result => {
+      if (result == 1) console.log("인증 번호 발송 성공");
+      else console.log("인증 번호 발송 실패!!!");
+    });
 
 
 
@@ -237,26 +266,26 @@ checkAuthKeyBtn.addEventListener("click", () => {
 
   // 인증번호 확인용 비동기 요청 보냄
   fetch("/email/checkAuthKey", {
-    method : "POST",
-    headers : {"Content-Type" : "application/json"},
-    body : JSON.stringify(obj)    // obj JS 객체를 JSON 으로 변경
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(obj)    // obj JS 객체를 JSON 으로 변경
   })
-  .then(resp => resp.text())
-  .then(result => {   // 1 or 0
+    .then(resp => resp.text())
+    .then(result => {   // 1 or 0
 
-    if(result == 0){
-      alert("인증번호가 일치하지 않습니다!");
-      checkObj.authKey = false;
-      return;
-    }
+      if (result == 0) {
+        alert("인증번호가 일치하지 않습니다!");
+        checkObj.authKey = false;
+        return;
+      }
 
-    // 일치하는 경우
-    clearInterval(authTimer);   // 타이머 멈춤
-    authKeyMessage.innerText = "인증 되었습니다.";
-    authKeyMessage.classList.remove("error");
-    authKeyMessage.classList.add("confirm");
-    checkObj.authKey = true;
-  })
+      // 일치하는 경우
+      clearInterval(authTimer);   // 타이머 멈춤
+      authKeyMessage.innerText = "인증 되었습니다.";
+      authKeyMessage.classList.remove("error");
+      authKeyMessage.classList.add("confirm");
+      checkObj.authKey = true;
+    })
 
 });
 

@@ -17,4 +17,17 @@ public interface MemberService {
 	 */
 	int checkEmail(String memberEmail);
 
+	/** 닉네임 중복검사 서비스
+	 * @param inputNickname
+	 * @return 중복이면 1 , 아니면 0
+	 */
+	int checkNickname(String memberNickname);
+
+	/** 회원가입 서비스
+	 * @param inputMember
+	 * @param memberAddress
+	 * @return result
+	 */
+	int signup(Member inputMember, String[] memberAddress);
+
 }

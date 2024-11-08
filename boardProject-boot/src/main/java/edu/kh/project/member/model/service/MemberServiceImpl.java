@@ -62,4 +62,34 @@ public class MemberServiceImpl implements MemberService{
 	public int checkEmail(String memberEmail) {
 		return mapper.checkEamil(memberEmail);
 	}
+
+	@Override		// 닉네임 중복검사 서비스
+	public int checkNickname(String memberNickname) {
+		return mapper.checkNickname(memberNickname);
+	}
+
+	@Override		// 회원가입 서비스
+	public int signup(Member inputMember, String[] memberAddress) {
+		
+		// 주소가 입력되지 않으면 
+		// inputMember.getMemberAddress() -> ",,"
+		// memberAddress -> [,,]
+		
+		if(!inputMember.getMemberAddress().equals(",,")) {	// 주소가 입력된 경우
+			// String.join("구분자", 배열) : 배열의 요소 사이에 "구분자" 추가하여 하나의 문자열로 반환
+			String address = String.join("^^^", memberAddress);
+			
+			// 구분자로 "^^^"를 쓴 이유 : 주소, 상세주소에 없는 특수문자 생성
+			// -> 나중에 마이페이지에서 주소 수정 시 3분할 때 구분자로 이용할 예정
+			
+			inputMember.setMemberAddress(address);
+			
+		} else inputMember.setMemberAddress(null);			// 주소가 입력되지 않은 경우
+		
+		// 암호화 진행 (현재 inputMember 안의 memberPw 는 평문)
+		String encPw = bcrypt.encode(inputMember.getMemberPw());
+		inputMember.setMemberPw(encPw);
+
+		return mapper.signup(inputMember);
+	}
 }
