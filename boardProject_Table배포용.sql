@@ -56,9 +56,9 @@ COMMIT;
 SELECT * FROM "MEMBER";
 
 -- 비밀번호 세팅 업데이트(평문 pass01!) -----------------------------------------
---UPDATE MEMBER
---SET MEMBER_PW = '$2a$10$a9snMyNTf1rzy5pn8Mupv.iPbb4ZzMlGHiqoN/Yyrr./D.jYpIiI.'
---WHERE MEMBER_NO = 1;
+UPDATE MEMBER
+SET MEMBER_PW = '$2a$10$a9snMyNTf1rzy5pn8Mupv.iPbb4ZzMlGHiqoN/Yyrr./D.jYpIiI.'
+WHERE MEMBER_NO = 1;
 -- 비밀번호 세팅 여기까지!!!!!!!!!! ----------------------
 
 -- 이메일 중복검사---------------------------------------------------------------

@@ -1,94 +1,45 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="UTF-8">
-  <title>맛있는 음식 추천</title>
-  <style>
-    .category-section {
-      margin: 20px;
-      padding: 15px;
-      border-radius: 8px;
-      background-color: #f8f9fa;
-    }
-
-    .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
-      padding: 15px;
-    }
-
-    .menu-item {
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 10px;
-      text-align: center;
-    }
-
-    .menu-item img {
-      width: 100%;
-      height: 150px;
-      object-fit: cover;
-      border-radius: 4px;
-    }
-
-    .menu-info {
-      margin-top: 10px;
-    }
-
-    .price {
-      color: #e44d26;
-      font-weight: bold;
-    }
-
-    header {
-      background-color: #333;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-
-    nav {
-      background-color: #f1f1f1;
-      padding: 10px;
-      margin-bottom: 20px;
-    }
-
-    nav ul {
-      list-style-type: none;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    nav ul li a {
-      text-decoration: none;
-      color: #333;
-      font-weight: bold;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="#{app.name}">맛있는 음식 추천</title>
+  <th:block th:replace="~{common/common}"></th:block>
 </head>
 
 <body>
-  <header>
-    <h1>오늘의 추천 맛집</h1>
-    <p>당신의 입맛에 딱 맞는 메뉴를 추천해드립니다!</p>
-  </header>
-
-  <nav>
-    <ul>
-      <li><a href="#korean">한식</a></li>
-      <li><a href="#chinese">중식</a></li>
-      <li><a href="#japanese">일식</a></li>
-      <li><a href="#western">양식</a></li>
-    </ul>
-  </nav>
-
   <main>
+
+    <!-- 헤더, 네비바 부분-->
+    <th:block th:replace="~{common/header}"></th:block>
+
+    <!-- 메인 페이지 내용 -->
+    <section class="content">
+
+      <!-- 왼쪽 섹션-->
+      <th:block th:replace="~{common/left-section :: category}"></th:block>
+      
+      <!-- 중앙 세션 -->
+      <section class="content-center">
+        중앙 영역
+      </section>
+  
+      <!-- 오른쪽 섹션 -->
+      <section class="content-right">
+  
+        <!-- 오른쪽 위 섹션(로그인창 or 회원정보)-->
+        <th:block th:replace="~{common/right-section :: login}"></th:block>
+  
+        <!-- 오른쪽 아래 섹션(쿠키정보 활용하여 이전에 본 레시피 출력)-->
+        <th:block th:replace="~{common/right-section :: previous}"></th:block>
+      </section>
+
+    </section>
+
+
     
-    <section id="korean" class="category-section">  
+    <!-- <section id="korean" class="category-section">  
       <h2>한식</h2>
       <div class="menu-grid">
         <div class="menu-item" th:each="menu : ${koreanFoods}">
@@ -145,8 +96,14 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
   </main>
+
+  <!-- 푸터 부분 -->
+  <th:block th:replace="~{common/footer}"></th:block>
+
+  <!-- JS 연결-->
+  <script src="/js/main.js"></script>
 </body>
 
 </html>
