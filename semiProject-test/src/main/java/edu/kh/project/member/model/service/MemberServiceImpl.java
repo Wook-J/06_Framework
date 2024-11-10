@@ -17,7 +17,7 @@ public class MemberServiceImpl implements MemberService{
 	@Autowired
 	private MemberMapper mapper;
 	
-	@Autowired		// SecurityConfig에서 bean 객체 생성
+	@Autowired		// SecurityConfig.java에서 bean 객체 생성
 	public BCryptPasswordEncoder bcrypt;
 
 	@Override		// 로그인 서비스
@@ -27,13 +27,16 @@ public class MemberServiceImpl implements MemberService{
 		
 		if(loginMember == null) return null;
 		
-		if(!bcrypt.matches(inputMember.getMemberPw(), loginMember.getMemberPw())) {
-			return null;
-		}
+		if(!bcrypt.matches(inputMember.getMemberPw(), loginMember.getMemberPw())) return null;
 		
 		loginMember.setMemberPw(null);
 		
 		return loginMember;
+	}
+
+	@Override		// 이메일 중복검사 서비스
+	public int checkEmail(String memberEmail) {
+		return mapper.checkEmail(memberEmail);
 	}
 
 }
