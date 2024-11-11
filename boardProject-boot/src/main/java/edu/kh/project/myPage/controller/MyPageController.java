@@ -1,5 +1,7 @@
 package edu.kh.project.myPage.controller;
 
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,6 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.kh.project.member.model.dto.Member;
@@ -14,9 +19,14 @@ import edu.kh.project.myPage.model.service.MyPageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/* @SessionAttributes( {"key", "key", "key", ...} ) 의 역할
+ * - Model 에 추가된 속성 중 key 값이 일치하는 속성을 session scope 로 변경
+ * - SessionStatus 이용 시 session 에 등록된 완료할 대상을 찾는 용도
+ * */
 @Controller
 @RequestMapping("myPage")
 @RequiredArgsConstructor		// @Autowired 안하고 필드명에 final 붙이면 DI 해줌!!
+@SessionAttributes({"loginMember"})
 @Slf4j
 public class MyPageController {
 
@@ -49,27 +59,27 @@ public class MyPageController {
 	}
 	
 	@GetMapping("profile")		// 프로필 이미지 변경 화면 이동
-	public String profile() {
+	public String profilePage() {
 		return "myPage/myPage-profile";
 	}
 	
 	@GetMapping("changePw")		// 비밀번호 변경 화면 이동
-	public String changePw() {
+	public String changePwPage() {
 		return "myPage/myPage-changePw";
 	}
 	
 	@GetMapping("secession")	// 회원 탈퇴 화면 이동
-	public String secession() {
+	public String secessionPage() {
 		return "myPage/myPage-secession";
 	}
 	
 	@GetMapping("fileTest")		// 파일 업로드 테스트 화면 이동
-	public String fileTest() {
+	public String fileTestPage() {
 		return "myPage/myPage-fileTest";
 	}
 	
 	@GetMapping("fileList")		// 파일 목록 조회 화면 이동
-	public String fileList() {
+	public String fileListPage() {
 		return "myPage/myPage-fileList";
 	}
 	
@@ -122,6 +132,143 @@ public class MyPageController {
 		ra.addFlashAttribute("message", message);
 		
 		return "redirect:info";
+	}
+	
+	
+	/** 비밀번호 변경
+	 * @param loginMember
+	 * @param currentPw
+	 * @param newPw
+	 * @param ra
+	 * @return
+	 */
+	@PostMapping("changePw")	// /myPage/changePw POST 요청 매핑
+	public String changePw(@SessionAttribute("loginMember") Member loginMember,
+							@RequestParam("currentPw") String currentPw,
+							@RequestParam("newPw") String newPw,
+							RedirectAttributes ra) {
+		
+		int result = service.changePw(loginMember.getMemberNo(), currentPw, newPw);
+		
+		String message;
+		String url;
+		
+		if(result > 0) {
+			message = "비밀번호가 변경되었습니다";
+			url = "redirect:info";
+			
+		} else {
+			message = "현재 비밀번호가 일치하지 않습니다";
+			url = "redirect:changePw";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return url;
+	}
+	
+	/** 비밀번호 변경(선생님 버전)
+	 * @param paramMap : 모든 파라미터를 맵으로 저장
+	 * @param loginMember : 세션에 등록된 현재 로그인한 회원 정보
+	 * @param ra : 리다이렉트시 request scope 로 메세지 전달하는 역할
+	 * @return
+	 */
+	@PostMapping("changePwByTeacher")
+	public String changePwByTeacher(@RequestParam Map<String, Object> paramMap,
+					@SessionAttribute("loginMember") Member loginMember,
+					RedirectAttributes ra) {
+		
+//		log.debug("paramMap : " + paramMap);		// 확인용
+//		log.debug("loginMember : " + loginMember);	// 확인용
+		
+		int memberNo = loginMember.getMemberNo();
+		
+		int result = service.changePwByTeacher(paramMap, memberNo);
+		
+		String path = null;
+		String message = null;
+		
+		if(result > 0) {
+			message = "비밀번호가 변경되었습니다";
+			path = "/myPage/info";
+			
+		} else {
+			message = "현재 비밀번호가 일치하지 않습니다";
+			path = "/myPage/changePw";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:" + path;
+	}
+	
+	/**
+	 * @param loginMember : 로그인한 회원 정보 (세션)
+	 * @param memberPw : 입력받은 비밀번호
+	 * @param status : 세션 완료용도의 객체
+	 * 			-> 클래스 상단에 @SessionAttributes 로 등록된 세션을 완료
+	 * @return
+	 */
+	@PostMapping("secession")
+	public String secession(@SessionAttribute("loginMember") Member loginMember,
+						@RequestParam("memberPw") String memberPw,
+						SessionStatus status,
+						RedirectAttributes ra) {
+		
+		// 로그인한 회원의 회원번호 꺼내기
+		int memberNo = loginMember.getMemberNo();
+		
+		// 서비스 호출 (입력받은 비밀번호, 로그인한 회원번호)
+		int result = service.secession(memberPw, memberNo);
+		
+		String message = null;
+		String path = null;
+		
+		if(result > 0) {
+			message = "탈퇴 되었습니다.";
+			path = "/";
+			status.setComplete();
+			
+		} else {
+			message = "비밀번호가 일치하지 않습니다.";
+			path = "secession";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		// 탈퇴 성공 - redirect:/ (메인페이지 재요청)
+		// 탈퇴 실패 - redirect:secession -> /myPage/secession(GET 요청)
+		return "redirect:" + path;
+	}
+	
+	
+	/* Spring 에서 파일 업로드를 처리하는 방법
+	 * 
+	 * - HTML에서 enctype="multipart/form-data"로 클라이언트 요청을 받으면
+	 *   (문자, 숫자, 파일 등이 섞여있는 요청)
+	 *   
+	 *   이를 MultipartResolver(FileConfig 에 정의)를 이용해서 섞여 있는 파라미터를 분리
+	 *   
+	 *   문자열, 숫자 -> String
+	 *   파일		  -> MultipartFile
+	 * 
+	 * */
+	/** 파일테스트 1
+	 * @param uploadFile : 업로드한 파일 + 파일에 대한 내용 및 설정 내용
+	 * @return
+	 */
+	@PostMapping("file/test1")		// /myPage/file/test1 POST 요청 매핑
+	public String fileUpload1(@RequestParam("uploadFile") MultipartFile uploadFile,
+							RedirectAttributes ra) throws Exception{
+		
+		String path = service.fileUpload1(uploadFile);
+		
+		// 파일이 저장되어 웹에서 접근할 수 있는 경로가 반환되었을 때
+		if(path != null) {
+			ra.addFlashAttribute("path", path);
+		}
+		
+		return "redirect:/myPage/fileTest";
 	}
 
 }

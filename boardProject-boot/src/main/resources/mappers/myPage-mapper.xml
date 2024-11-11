@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="edu.kh.project.myPage.model.mapper.MyPageMapper">
 
-	<!-- 회원정보 수정 전 닉네님 중복검사 내버전에만 씀....ㅜㅜ -->
+	<!-- 회원정보 수정 전 닉네님 중복검사 내 버전에만 씀....ㅜㅜ -->
 	<select id="updateInfoDuplication" resultType="_int">
 		SELECT COUNT(*)
 		FROM "MEMBER"
@@ -16,6 +16,41 @@
 		SET MEMBER_NICKNAME = #{memberNickname},
 			MEMBER_TEL = #{memberTel},
 			MEMBER_ADDRESS = #{memberAddress}
+		WHERE MEMBER_NO = ${memberNo}
+	</update>
+	
+	<!-- 기존 회원의 암호화된 비밀번호 조회 -->
+	<select id="memberPw" resultType="string">
+		SELECT MEMBER_PW
+		FROM "MEMBER"
+		WHERE MEMBER_NO = ${memberNo}
+	</select>
+	
+	<!-- 기존 회원의 비밀번호 변경(수정)  -->
+	<update id="changePw">
+		UPDATE "MEMBER"
+		SET MEMBER_PW = #{memberPw}
+		WHERE MEMBER_NO = ${memberNo}
+	</update>
+	
+	<!-- 기존 회원의 암호화된 비밀번호 조회 (선생님 버전) -->
+	<select id="selectPw" resultType="string">
+		SELECT MEMBER_PW
+		FROM "MEMBER"
+		WHERE MEMBER_NO = ${memberNo}
+	</select>
+	
+	<!-- 기존 회원의 비밀번호 변경 (선생님 버전) -->
+	<update id="changePwByTeacher">
+		UPDATE "MEMBER"
+		SET MEMBER_PW = #{encPw}
+		WHERE MEMBER_NO = ${memberNo}
+	</update>
+	
+	<!-- 회원 탈퇴 -->
+	<update id="secession">
+		UPDATE "MEMBER"
+		SET MEMBER_DEL_FL = 'Y'
 		WHERE MEMBER_NO = ${memberNo}
 	</update>
 	

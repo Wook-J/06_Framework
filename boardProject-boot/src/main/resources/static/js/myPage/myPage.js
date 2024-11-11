@@ -25,8 +25,13 @@ function execDaumPostcode() {
   }).open();
 }
 
-// 주소 검색 버튼 클릭 시   - 호출할 때 함수명만! 소괄호 필요없음!
-document.querySelector("#searchAddress").addEventListener("click", execDaumPostcode);
+const searchAddress = document.querySelector("#searchAddress");
+
+// myPage-info.html 외에서 문제가 발생하지 않도록 하는 예외처리 구문
+if(searchAddress != null){
+  // 주소 검색 버튼 클릭 시   - 호출할 때 함수명만! 소괄호 필요없음!
+  searchAddress.addEventListener("click", execDaumPostcode);
+}
 
 // -------------------------------------------------------------
 /* 회원 정보 수정 페이지 */
@@ -137,7 +142,9 @@ if (updateInfo != null) {
 // 비밀번호 변경 form 태그
 const changePw = document.querySelector("#changePw");
 
+// 각 페이지마다 변수가 없는 경우가 있음
 if (changePw != null) {
+
   // 제출 되었을 때
   changePw.addEventListener("submit", e => {
 

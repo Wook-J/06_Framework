@@ -53,3 +53,28 @@ if(loginForm != null){
     }
   });
 }
+
+/* *************** left section *************** */
+const leftBasicBtn = document.querySelector("#leftBasicBtn");
+const leftBasicCatecory = document.querySelector("#leftBasicCategory");
+
+leftBasicBtn.addEventListener("click", ()=>{
+  leftBasicCatecory.classList.toggle("left-normal");
+  leftBasicCatecory.classList.toggle("left-hidden");
+})
+
+const leftPlusBtn = document.querySelector("#leftPlusBtn");
+const leftPlusCategory = document.querySelector("#leftPlusCategory");
+
+leftPlusBtn.addEventListener("click", ()=>{
+  leftPlusCategory.classList.toggle("left-normal");
+  leftPlusCategory.classList.toggle("left-hidden");
+})
+
+const leftEtcBtn = document.querySelector("#leftEtcBtn");
+const leftEtcCategory = document.querySelector("#leftEtcCategory");
+
+leftEtcBtn.addEventListener("click", ()=>{
+  leftEtcCategory.classList.toggle("left-normal");
+  leftEtcCategory.classList.toggle("left-hidden");
+})

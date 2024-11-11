@@ -138,12 +138,12 @@ nav ul li a {
 }
 
 .content-center{
-  width: 55%;
+  width: 60%;
   background-color: aqua;
 }
 
 .content-right{ 
-  width: 30%;
+  width: 25%;
   background-color: gold;
 }
 
@@ -152,9 +152,14 @@ section {
 }
 
 /* ******************** left ******************** */
+
 .content-left-category ul li ul {
   list-style-type: none;
   padding-inline-start: 0px;
+}
+
+.left-hidden {
+  display: none;
 }
 
 /* ******************** right 윗부분 ******************** */

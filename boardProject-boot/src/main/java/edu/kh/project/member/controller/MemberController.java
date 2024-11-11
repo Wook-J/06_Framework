@@ -103,7 +103,7 @@ public class MemberController {
 	
 	/** 로그아웃 : session 에 저장된 로그인된 회원 정보를 없앰
 	 * @param SessionStatus : @SessionAttributes 로 지정된 특정 속성을 
-	 * 						  세션에서 제거하는 기능을 제공하는 객체
+	 * 						  세션에서 제거하는 기능을 제공하는 객체(클래스 상단에 있어야함!)
 	 * @return
 	 */
 	@GetMapping("logout")

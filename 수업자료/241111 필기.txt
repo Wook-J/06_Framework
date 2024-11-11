@@ -1,0 +1,135 @@
+비밀번호 변경
+JS에서 3가지 창 비어있지 않은지
+새비밀번호랑 새비밀번호확인이 일치하지 않는지 확인
+(mypage.js에 있음)
+
+현재 로그인한 회원의 회원번호 얻어오기
+(Session에 올라가 있음)
+
+변경 성공 시 message = "비밀번호가 변경되었습니다"
+변경 실패 시 message = "현재 비밀번호가 일치하지 않습니다"
+
+service : mapper 2번호출
+
+DB에서 조회(매퍼 호출!)한 비밀번호는 암호화된 상태
+html에서 입력한 평문이랑 DB에 저장된 암호화된 비밀번호 비교
+비크립트~.matches 이용
+같을 경우 새 비밀번호를 암호화 encode진행 후 DB에 업데이트(매퍼 호출!)!
+
+--------------------------------------------------------------------------------------
+
+이미지가 사용자 눈에 보이는 과정
+1. 클라이언트가 서버에 이미지 요청
+  - html에 <img src="경로">  태그가 작성되어 있으면 브라우저(클라이언트)는 
+    src에 있는 경로를 서버에 요청 
+  -> 클라리언트가 서버에 이미지 파일을 보내달라고 요청하는 HTTP 요청으로 처리
+
+2. 서버의 실제 파일 경로와 클라이언트 요청 경로 연결
+  - 클라이언트 : A.jpg 원하는데, 서버의 어느 경로에 A.jpg 가 있는 지 모름...
+  -> /myPage/file/A.jpg 요청???
+  <img src="/myPage/file/A.jpg" />    --> 서버의 실제 경로 C:/uploadFiles/myPage/A.jpg
+
+  - 서버는 실제로 /myPage/file/**이 요청주소와 매핑되어 있는 서버 경로를 찾음
+    ex) 클라가 /myPage/file/** 요청을 보내면 C:/uploadFiles/myPage/ 경로로 매핑(규칙 지정)
+    ex) 클라가 /board/file/test.jpg 요청을 보내면 C:/uploadFiles/board/ 경로로 매핑(규칙 지정)
+
+3. 서버는 실제 이미지가 있는 경로에서 이미지 파일을 찾아 클라이언트에게 응답
+--> addResourceHandler("/myPage/file/**") : 클라이언트가 요청할 URL 경로 패턴 정의
+     (즉, 클라가 /myPage/file/**로 요청을 보낼 때 이 요청을 처리)
+
+--> addResourceLocations("file://C:/uploadFiles/myPage/") : 서버가 요청처리 시 실제 파일 경로 설정
+     (즉, 이 경로에서 파일을 찾아 응답으로 보냄)
+
+--------------------------------------------------------------------------------------
+
+사용자가 사용자 컴퓨터에 있는 이미지 파일을 사이트에 올렸을 때
+서버 컴퓨터에 그 이미지가 저장되는 과정
+
+클라이언트 컴퓨터에 있는 이미지를 서버 컴퓨터에 저장하기 위해서는
+클라이언트가 <input type="file"> 을 통해 선택한 파일을 서버로 전송. (by HTTP)
+
+1. 클라이언트가 파일을 선택
+- <input type="file"> 요소를 사용하여 컴퓨터에 있는 파일을 선택
+- 브라우저는 위 파일의 경로와 파일 내용을 메모리에 로드
+
+2. 파일을 서버로 전송(폼 데이터로 요청) : multipart/form-data 형식
+- 파일 객체 or 단순 텍스트 포함
+
+3. 서버(Spring)는 위 파일 데이터를 수신
+- 클라의 요청을 받고, 파일 데이터를 읽어서 서버의 지정된 폴더에 저장
+-> 1) Controller 에서 MultipartFile 객체를 사용해서 파일을 처리
+->    MultipartFile 에 지정된 설정을 통해 서버가 파일을 지정된 위치에 저장
+-->    클라이언트가 myPage에서 프로필 업로드를 요청한 경우
+-->    서버의 C:/uploadFiles/myPage/ 경로 이하에 MultipartFile 객체를 통해 전달받은 파일 저장
+
+-->    클라가 업로드한 프로필 이미지를 마이페이지에서 확인하고 싶은 경우
+-->    <img src="/myPage/profile/A.jpg">
+-->    서버 컴퓨터의 C:/uploadFiles/myPage/ 매핑하여 A.jpg 찾아 응답
+
+--------------------------------------------------------------------------------------
+
+클라이언트 제출 버튼 클릭   → 서버에 저장(transferTo 이용) 등록!!!!!!!!!
+↑ 
+본인 파일 제출
+
+클라이언트가 본인 브라우저에서 또 요청 -> test 폴더에 있는 유리 파일 요청!
+img 태그에 뿌려주는 역할!
+
+ 요청과 응답을 2번 하고 있음!!
+
+프로필/ 내정보/ 비밀번호 변경/ 회원탈퇴
+
+--------------------------------------------------------------------------------------
+
+파일 업로드 할 때 만져야 할 설정들
+config.properties
+- spring.servlet.multipart.file-size-threshold="파일을 디스크에 쓸 때까지의 임계값"
+- spring.servlet.multipart.max-request-size="HTTP 요청당 최대 크기"
+- spring.servlet.multipart.max-file-size="개별 파일당 최대 크기"
+- spring.servlet.multipart.location="서버컴퓨터내 임시저장 경로"
+
+FileConfig.java  싹다 설정 해줘야함 @Configuration, @PropertySource("classpath:/config.properties")
+- 필드 : config.properties 에 있는 value를 @Value를 이용해서 얻어오기(4개)
+- 메서드
+  1) addResourceHandlers -> class 선언 시 implements WebMvcConfigurer 작성하여 overriding
+    - registry.addResourceHandler("/myPage/file/**").addResourceLocations("file:///C:/uploadFiles/test/");
+  2) MultipartConfigElement -> @Bean 작성
+    - config.properties의 value 모두 활용 하여 MultipartConfigFactory 에 세팅
+    - return factory.createMultipartConfig();
+  3) MultipartResolver -> @Bean 작성
+    - StandardServletMultipartResolver 사용하여 새 객체 생성 후 반환
+
+myPage-fileTest.html : 2가지 요청이 존재(처음에 올릴땐 POST 요청만)
+  1) <form action="/myPage/file/test1" method="POST" enctype="multipart/form-data">
+    - 파일 형식으로 제출하면 Controller 에서 처리(뒤에서 상세히)
+  2) <a th:if="${path != null}" th:text="${path}" th:href="${path}" download>업로드한 파일</a>
+      <img th:src="${path}">
+    - a태그 (download 속성 -> href 속성에 작성된 요청에 대한 응답을 다운로드 함)
+    - img 태그 : path경로에 있는 이미지를 나타내기
+
+MyPageController.java
+- 매개변수에 @RequestParam("uploadFile") (★)MultipartFile uploadFile 이용
+- service 호출하여 path를 만듦  -> String path = service.fileUpload1(uploadFile);
+- path가 null 이 아니면 ra.addFlashAttribute를 통해 redirect 시 path를 그대로 끌고 감
+  -> myPage-fileTest.html 의 2번째 요청에서 이미지가 보일 수 있도록 함
+- return "redirect:/myPage/fileTest";
+  (업로드한 이미지 파일이 출력되는 지 확인하기 위해 다시 redirect)
+
+MyPageServiceImpl.java (new File 이용하므로 IOException 처리 필요)
+- public String fileUpload1(MultipartFile uploadFile) throws Exception{ ... }
+- MultipartFile 이 제공하는 메서드 : getSize(), isEmpty(), getOriginalFileName(), transferTo(경로)
+- if(uploadFile.isEmpty()) return null;	// 업로드한 파일이 없는 경우 처리
+- uploadFile.transferTo(new File("C:/uploadFiles/test/" + uploadFile.getOriginalFilename()));
+  (업로드한 파일이 있을 경우 C:/uploadFiles/test/파일명으로 서버에 저장하는 코드)
+- return "/myPage/file/" + uploadFile.getOriginalFilename();
+  (이미지를 불러올 경로를 return 함)
+
+--------------------------------------------------------------------------------------
+
+세미 플젝 요구사항 정의서
+
+네비바 -> 호버해서 창 띄우면서 그 창안에서 글을 쓰고 a링크할 수 있을까..?
+└ 로그인 -> 로그인창을 오른쪽 상단에 버튼만 만들어서 로그인 페이지 별도로 만들지?(js에서 location.href 이용?)
+
+오른쪽 섹션 아래부분(쿠키관련)
+클릭하고 나오는 URL을 쿠키로 저장하여 그 주소명을 불러와서 오른쪽 아래에 대강 뿌리기

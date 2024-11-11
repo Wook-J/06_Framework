@@ -61,6 +61,11 @@ SET MEMBER_PW = '$2a$10$a9snMyNTf1rzy5pn8Mupv.iPbb4ZzMlGHiqoN/Yyrr./D.jYpIiI.'
 WHERE MEMBER_NO = 1;
 -- 비밀번호 세팅 여기까지!!!!!!!!!! ----------------------
 
+-- 탈퇴한 회원(STS 에서 실행) 다시 복구
+UPDATE "MEMBER"
+SET MEMBER_DEL_FL = 'N'
+WHERE MEMBER_NO = 5;
+
 -- 이메일 중복검사---------------------------------------------------------------
 SELECT COUNT(*)
 FROM "MEMBER"
@@ -69,6 +74,9 @@ AND MEMBER_EMAIL = 'user01@kh.or.kr';
 --> 0 : 중복 X (해당 이메일 사용중인 회원 없음) -> 이용 가능
 --> 1 : 중복 O (해당 이메일 사용중인 회원 있음) -> 이용 불가능
 ---------------------------------------------------------------------------------
+
+DELETE FROM "MEMBER"
+WHERE MEMBER_NO = 3;
 
 /* 이메일, 인증키 저장 테이블 생성 */
 CREATE TABLE "TB_AUTH_KEY"(
