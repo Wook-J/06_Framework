@@ -17,8 +17,9 @@
     <!-- 메인 페이지 내용 -->
     <section class="content">
 
-      <!-- 왼쪽 섹션-->
+      <!-- 왼쪽 섹션 : 삭제
       <th:block th:replace="~{common/left-section :: category}"></th:block>
+      -->
       
       <!-- 중앙 세션 -->
       <section class="content-center">
@@ -28,75 +29,16 @@
       <!-- 오른쪽 섹션 -->
       <section class="content-right">
   
-        <!-- 오른쪽 위 섹션(로그인창 or 회원정보)-->
+        <!-- 오른쪽 위 섹션(로그인창 or 회원정보) 헤더 부분으로 이동
         <th:block th:replace="~{common/right-section :: login}"></th:block>
+        -->
   
-        <!-- 오른쪽 아래 섹션(쿠키정보 활용하여 이전에 본 레시피 출력)-->
+        <!-- 오른쪽 아래 섹션(쿠키정보 활용하여 이전에 본 레시피 출력) -->
         <th:block th:replace="~{common/right-section :: previous}"></th:block>
       </section>
 
     </section>
 
-
-    
-    <!-- <section id="korean" class="category-section">  
-      <h2>한식</h2>
-      <div class="menu-grid">
-        <div class="menu-item" th:each="menu : ${koreanFoods}">
-          <img th:src="${menu.imageUrl}" th:alt="${menu.name}">
-          <div class="menu-info">
-            <h3 th:text="${menu.name}">메뉴명</h3>
-            <p th:text="${menu.description}">설명</p>
-            <p class="price" th:text="${menu.price + '원'}">가격</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    
-    <section id="chinese" class="category-section"> 
-      <h2>중식</h2>
-      <div class="menu-grid">
-        <div class="menu-item" th:each="menu : ${chineseFoods}">
-          <img th:src="${menu.imageUrl}" th:alt="${menu.name}">
-          <div class="menu-info">
-            <h3 th:text="${menu.name}">메뉴명</h3>
-            <p th:text="${menu.description}">설명</p>
-            <p class="price" th:text="${menu.price + '원'}">가격</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    
-    <section id="japanese" class="category-section">  
-      <h2>일식</h2>
-      <div class="menu-grid">
-        <div class="menu-item" th:each="menu : ${japaneseFoods}">
-          <img th:src="${menu.imageUrl}" th:alt="${menu.name}">
-          <div class="menu-info">
-            <h3 th:text="${menu.name}">메뉴명</h3>
-            <p th:text="${menu.description}">설명</p>
-            <p class="price" th:text="${menu.price + '원'}">가격</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    
-    <section id="western" class="category-section"> 
-      <h2>양식</h2>
-      <div class="menu-grid">
-        <div class="menu-item" th:each="menu : ${westernFoods}">
-          <img th:src="${menu.imageUrl}" th:alt="${menu.name}">
-          <div class="menu-info">
-            <h3 th:text="${menu.name}">메뉴명</h3>
-            <p th:text="${menu.description}">설명</p>
-            <p class="price" th:text="${menu.price + '원'}">가격</p>
-          </div>
-        </div>
-      </div>
-    </section> -->
   </main>
 
   <!-- 푸터 부분 -->

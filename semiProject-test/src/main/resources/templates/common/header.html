@@ -1,13 +1,13 @@
 <header>
 
+  <!-- header 오른쪽 섹션 : 클릭 시 메인 페이지로 이동 -->
   <section>
-    <!-- 클릭 시 메인 페이지로 이동하는 로고 -->
     <a href="/">
       <img src="/images/logo.jpg" alt="메인 로고" id="homeLogo">
     </a>
   </section>
 
-  <!-- 검색어 입력할 수 있는 요소 배치 영역 -->
+  <!-- header 가운데 섹션 : 검색어 입력할 수 있는 요소 배치 영역 -->
   <section>
     <h1>오늘의 추천 맛집</h1>
     <p>당신의 입맛에 딱 맞는 메뉴를 추천해드립니다!</p>
@@ -36,21 +36,52 @@
     </article>
   </section>
 
+  <!-- header 오른쪽 섹션 -->
+  <section>
+    <th:block th:if="${session.loginMember == null}">
+      <a href="member/login">로그인</a>
+      <span> | </span>
+      <a href="/member/signup">회원가입</a>
+    </th:block>
 
-  <!-- 안쓰는 섹션 -->
-  <section> 빈 부분 </section>
-
-
+    <th:block th:if="${session.loginMember != null}" th:object="${session.loginMember}">
+      <div th:text="|*{memberNickname} 님 환영합니다!!|"></div>
+      <div>
+        <a href="/myPage/info" id="nickname" >마이페이지</a>
+        <a href="/member/logout" id="logoutBtn">로그아웃</a>
+      </div>
+    </th:block>
+  </section>
 </header>
 
 
 <!-- navigator -->
-<nav>
+<nav id="navigator">
   <ul>
-    <li><a href="#">Hot 자취요리</a></li>
-    <li><a href="#">추억위 자취요리</a></li>
-    <li><a href="#">랜덤 자취요리</a></li>
-    <li><a href="#">냉장고를 부탁해</a></li>
-    <li><a href="#">가성비 자취요리</a></li>
+    <li> 자취 요리
+      <ul class="nav-category nav-hidden">
+        <li><a href="#">Hot 자취요리</a></li>
+        <li><a href="#">추억의 자취요리</a></li>
+        <li><a href="#">랜덤 자취요리</a></li>
+        <li><a href="#">냉장고를 부탁해</a></li>
+        <li><a href="#">가성비 자취요리</a></li>
+      </ul>
+    </li>
+
+    <li>이모저모
+      <ul class="nav-category nav-hidden">
+        <li><a href="#">(★) 공지사항 (★)</a></li>
+        <li><a href="#">자취 요리 꿀팁</a></li>
+        <li><a href="#">공동 구매 모집</a></li>
+        <li><a href="#">자유게시판</a></li>
+      </ul>
+    </li>
+
+    <li>기타
+      <ul class="nav-category nav-hidden">
+        <li><a href="#">1:1 문의</a></li>
+        <li><a href="#">멤버별 혜택</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>

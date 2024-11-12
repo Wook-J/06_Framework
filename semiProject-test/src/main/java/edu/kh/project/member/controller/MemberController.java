@@ -27,6 +27,10 @@ public class MemberController {
 	@Autowired
 	private MemberService service;
 
+	@GetMapping("login")
+	public String loginPage() {
+		return "member/login";
+	}
 	// **************** 메인페이지 부분 ****************
 	
 	@PostMapping("login")

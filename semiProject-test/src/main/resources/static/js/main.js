@@ -1,5 +1,17 @@
 console.log("main.js 연결됨");
 
+/* *************** nav section *************** */
+const navigator = document.querySelector("#navigator");
+const navCategory = document.querySelectorAll(".nav-category");
+
+navigator.addEventListener("mouseenter", ()=>{
+  for(category of navCategory) category.classList.remove("nav-hidden");
+})
+
+navigator.addEventListener("mouseleave", ()=>{
+  for(category of navCategory) category.classList.add("nav-hidden");
+})
+
 /* 이메일 저장 클릭하여 로그인 한 후 로그아웃 한 경우 이전 이메일 남겨놓기 */
 const loginEmail = document.querySelector("#loginForm input[name='memberEmail']");
 
@@ -53,28 +65,3 @@ if(loginForm != null){
     }
   });
 }
-
-/* *************** left section *************** */
-const leftBasicBtn = document.querySelector("#leftBasicBtn");
-const leftBasicCatecory = document.querySelector("#leftBasicCategory");
-
-leftBasicBtn.addEventListener("click", ()=>{
-  leftBasicCatecory.classList.toggle("left-normal");
-  leftBasicCatecory.classList.toggle("left-hidden");
-})
-
-const leftPlusBtn = document.querySelector("#leftPlusBtn");
-const leftPlusCategory = document.querySelector("#leftPlusCategory");
-
-leftPlusBtn.addEventListener("click", ()=>{
-  leftPlusCategory.classList.toggle("left-normal");
-  leftPlusCategory.classList.toggle("left-hidden");
-})
-
-const leftEtcBtn = document.querySelector("#leftEtcBtn");
-const leftEtcCategory = document.querySelector("#leftEtcCategory");
-
-leftEtcBtn.addEventListener("click", ()=>{
-  leftEtcCategory.classList.toggle("left-normal");
-  leftEtcCategory.classList.toggle("left-hidden");
-})

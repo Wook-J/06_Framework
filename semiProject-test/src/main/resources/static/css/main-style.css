@@ -109,18 +109,31 @@ nav {
   margin-bottom: 20px;
 }
 
+nav > ul > li {
+  font-size: 20px bold ;
+}
+
 nav ul {
   list-style-type: none;
   padding: 0;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   gap: 20px;
 }
 
-nav ul li a {
+.nav-category {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-category a {
   text-decoration: none;
   color: #333;
   font-weight: bold;
+}
+
+.nav-hidden{
+  display: none;
 }
 
 /* ******************** 메인페이지 content ******************** */
@@ -132,13 +145,8 @@ nav ul li a {
                         -> 자식 요소의 높이를 부모랑 똑같이 함 */
 }
 
-.content-left-category{
-  width: 15%;
-  background-color: bisque;
-}
-
 .content-center{
-  width: 60%;
+  width: 75%;
   background-color: aqua;
 }
 
@@ -151,107 +159,9 @@ section {
   border: 1px dashed pink;
 }
 
-/* ******************** left ******************** */
+/* ******************** right ******************** */
 
-.content-left-category ul li ul {
-  list-style-type: none;
-  padding-inline-start: 0px;
-}
 
-.left-hidden {
-  display: none;
-}
-
-/* ******************** right 윗부분 ******************** */
-
-/* 로그인 영역 */
-#loginForm{
-  height: 150px;
-  padding: 10px;
-  margin-top: 10px;
-
-  display: flex;
-  flex-direction: column;  /* 중심축을 컬럼(세로)로 지정 */
-  justify-content: center; /* 중심축(세로) 가운데 정렬 */
-}
-
-/* id/pw 입력 영역 */
-.id-pw-area{
-  border: 1px solid #ccc;
-  display: flex;
-  flex-basis: 60%; /* 중심축(세로) 방향 60% (== height:60%) */
-}
-
-.id-pw-area > section:first-of-type{
-  width: 75%;
-  display: flex;
-  flex-direction: column;
-}
-
-/* id/pw input태그 */
-.id-pw-area > section:first-of-type > input{
-  border: none;
-  outline: none;
-  height: 50%;
-  padding: 5px;
-  border-right: 1px solid #ccc;
-}
-
-input[name="memberEmail"]{
-  border-bottom : 1px solid #ccc !important;    /* id/pw 사이 선 */
-}
-
-/* id/pw input태그에 초점이 맞춰졌을 때 */
-.id-pw-area > section:first-of-type > input:focus{
-  border : 2px solid var(--main-color) !important;
-}
-
-/* 로그인 버튼 영역 */
-.id-pw-area > section:last-of-type{
-  width: 25%;
-  display: flex;
-  justify-content: center;
-}
-
-/* 로그인 버튼 */
-.id-pw-area > section:last-of-type > button{
-  width: 100%;
-  background-color: white;
-  cursor: pointer;
-  border: none;
-  font-weight: bold;
-}
-
-.id-pw-area > section:last-of-type > button:hover{
-  color : white;
-  background-color: var(--main-color);
-}
-
-/* 회원가입 / 찾기 */
-.signup-find-area{
-  margin-top: 10px;
-  padding-left: 5px;
-}
-
-.signup-find-area > a{
-  font-size: 14px;
-}
-
-.signup-find-area > span{
-  padding: 0 10px;
-}
-
-/* 아이디 저장 */
-#loginForm > label{
-  margin-top: 5px;
-  font-size: 14px;
-  display: flex;
-  padding: 5px 0;
-}
-
-input[name="saveId"]{
-  margin-right: 5px;
-}
 
 /* ************** 로그인 되었을 때 ************* */
 .login-area{
