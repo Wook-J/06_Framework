@@ -78,7 +78,7 @@ implemnets Filter 하고 doFilter Overriding 추가 코드 작성
 edu.kh.project.main.controller.MainController
 @GetMapping("loginError") RedirectAttribute ra 를 매개변수에 넣기 + redirect:/
 
-
+edu.kh.project.common.config.FilterConfig
 
 
 
