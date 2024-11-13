@@ -44,7 +44,6 @@ public class EmailConfig {
 		prop.setProperty("mail.smtp.ssl.trust", "smtp.gmail.com");	// 신뢰할 수 있는 SMTP 서버 호스트를 지정
 		prop.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");	// SSL 프로토콜을 설정. 여기서는 TLSv1.2를 사용
 		
-		
 		mailSender.setUsername(userName);		// 이메일 계정의 사용자 
 		mailSender.setPassword(password);		// 이메일 계정의 앱비밀번호
 		mailSender.setHost("smtp.gmail.com"); 	// SMTP 서버 호스트를 설정.  Gmail의 SMTP 서버인 "smtp.gmail.com"을 사용

@@ -58,6 +58,10 @@
 			  
               <td>
                 <img th:src="|*{filePath}*{fileRename}|" alt="이미지" height="100px;">
+                <!-- 정적 리소스 가져와서 뿌려달라는 요청 
+                  src = /myPage/file/20240417114905_00001.png
+                  FileConfig.java의 public void addResourceHandlers (){} 에 있음
+                -->
               </td>
             </tr>
           </tbody>

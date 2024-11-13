@@ -1,0 +1,61 @@
+ls (list) : 현재 디렉토리(폴더)의 파일 목록 확인
+cd (change directory) : 현재 작업중인 디렉토리 변경
+cd 디렉토리명 : 해당 디렉토리로 이동
+cd .. : 현재 디렉토리의 부모 디렉토리로 이동
+--------------------------------------
+git init : 새로운 Git 저장소를 초기화할 때 사용
+- 현재 디렉토리를 Git 저장소로 설정
+- 이후에는 해당 디렉토리에서 Git의 버전관리기능을
+이용할 수 있음
+- 프로젝트를(여러분폴더) Git으로 관리하려고 할 때
+가장 먼저 사용하는 명령어
+
+git status : 현재 스테이징 영역에 있는 파일과 아닌 파일들의 상태를 확인
+
+git add : 파일을 스테이징 영역에 올리는 것
+
+git add test.html : test.html 파일을 스테이징 영역에 올림
+
+git add . : 프로젝트 내 모든 파일을 스테이징 영역에 올림
+
+git commit : 스테이징 영역에 있는 변경사항을 커밋하여
+로컬 저장소에 기록하는데 사용(하나의 버전으로 만든다)
+
+
+git 사용자 설정 & 환경 설정
+git config --global user.name "cmhinst2" : git commit에 사용할 사용자 이름 설정
+git config --global user.email "cmhinst2@gmail.com" : git commit에 사용할 사용자 이메일 주소 설정
+
+설정 후
+
+git commit -m "first commit"
+git commit -m "240826 js 함수파트 끝"
+
+
+현재 로컬 디렉토리와 원격 레파지토리랑 연결 명령어
+git remote add origin https://github.com/cmhinst2/01_WebFront.git
+
+https://github.com/cmhinst2/01_WebFront.git : 원격 저장소 주소
+이 주소를 내 로컬과 연결하겠다 
+
+
+bash 창에서 : shift + insert -> 붙여넣기
+
+git push : 로컬 레파지토리에 있는 commit 내역을 원격 레파지토리로 올리는 것 
+
+
+
+1. git pull : 원격에서 로컬로 당기시오(내려받으시오) 항상 집/학원 컴퓨터키면 바로 git pull
+~ 코드 치고.. 공부하고 ... 
+2. git commit 
+3. git push : 로컬에서 원격으로 밀어넣으시오 (올리는거)
+
+
+git clone 원격저장소주소
+
+: 다른 로컬 pc에 원격저장소에 있는 프로젝트 클론 만들기
+
+
+
+
+
