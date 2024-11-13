@@ -69,8 +69,14 @@ checkout -b : 새로 생성 + 브랜치로 이동
 checkout -t : 원격에 생성된 얘들을 로컬로 불러오면서 이동
 checkout : 로컬에 있는 브랜치로 이동
 
+------------------------------------------------------------------------------------------
 
+Filter 부분
+edu.kh.project.common.filter.LoginFilter
+implemnets Filter 하고 doFilter Overriding 추가 코드 작성
 
+edu.kh.project.main.controller.MainController
+@GetMapping("loginError") RedirectAttribute ra 를 매개변수에 넣기 + redirect:/
 
 
 
