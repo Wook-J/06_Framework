@@ -1,5 +1,7 @@
 package edu.kh.project.board.model.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,7 +42,7 @@ public class Board {
 	private String thumbnail;
 	
 	// -- 게시글 상세 조회 시 추가예정 --
-	// 특정 게시글 이미지 목록
-	// 특정 게시글에 작성된 댓글 목록
-	// 좋아요 여부 확인
+	private List<BoardImg> imageList;	// 특정 게시글 이미지 목록
+	private List<Comment> commentList;	// 특정 게시글에 작성된 댓글 목록
+	private int likeCheck;				// 좋아요 여부 확인
 }

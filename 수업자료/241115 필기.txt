@@ -1,0 +1,28 @@
+a링크로 하는 경우 
+<a th:unless="${param.key}"
+	th:href="@{/board/{boardCode}/{boardNo} (boardCode=${boardCode}, boardNo=*{boardNo}, cp=${pagination.currentPage})}"
+	th:text="*{boardTitle}">게시글 제목</a>
+요청 주소에 없는 경우에는 ULI에 들어가지 않고 쿼리스트링으로 들어감
+ULI : /board/1/2000
+?cp=1 (목록으로 가는 버튼을 클릭할 때 필요)
+
+-------------------------------------------------------------------------------------------------
+
+boardDetail.html 의 83줄
+클라이언트의 요청주소 : /images/board/test1.jpg
+
+BoardController의 98줄
+썸네일 있으면 start 1
+썸네일 없으면 start 0
+
+boardDetail.html 의 91줄
+imageList의 size vs start( 썸네일 있으면 1, 없으면 0)
+
+size 1인데 start1 이면 91줄(업로드이미지 관련) if문 false 여서 출력 안됨
+(즉 썸네일만 있으면 size = 1, start = 1 임)
+
+-------------------------------------------------------------------------------------------------
+
+LoginFilter.java의 다운캐스티 이후 추가 코드 작성(241115 오후2시~)
+쿼리스트링 포함 전체 : URL
+쿼리스크링 제외한 부분 : URI

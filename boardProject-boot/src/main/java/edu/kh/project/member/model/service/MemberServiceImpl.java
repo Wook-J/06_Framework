@@ -1,5 +1,9 @@
 package edu.kh.project.member.model.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,8 +13,8 @@ import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.mapper.MemberMapper;
 import lombok.extern.slf4j.Slf4j;
 
-@Transactional(rollbackFor=Exception.class)
 @Service
+@Transactional(rollbackFor=Exception.class)
 @Slf4j
 public class MemberServiceImpl implements MemberService{
 	
@@ -91,5 +95,26 @@ public class MemberServiceImpl implements MemberService{
 		inputMember.setMemberPw(encPw);
 
 		return mapper.signup(inputMember);
+	}
+	
+	@Override	// 회원조회 서비스(비동기)
+	public List<Member> selectList() {
+		return mapper.selectAll();
+	}
+	
+	@Override	// 특정 회원 비밀번호 초기화 서비스(비동기)
+	public int resetPw(int memberNo) {
+
+		Map<String, Object> map = new HashMap<>();
+		String encPw = bcrypt.encode("pass01!");
+		map.put("memberNo", memberNo);
+		map.put("encPw", encPw);
+		
+		return mapper.resetPw(map);
+	}
+	
+	@Override	// 탈퇴한 회원 복구 서비스(비동기)
+	public int restoration(int memberNo) {
+		return mapper.restoration(memberNo);
 	}
 }
