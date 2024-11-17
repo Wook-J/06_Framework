@@ -1,0 +1,77 @@
+<!-- 홈버튼, 홈페이지 이름, 로그인 버튼-->
+<header>
+  <section>
+    <a href="/">
+      <img src="/images/logo.jpg" alt="메인로고" id="homeLogo">
+    </a>
+  </section>
+
+  <section>
+    <h1 th:text="#{app.name}">messages.properties 값</h1>
+  </section>
+
+  <section>
+    <th:block th:if="${session.loginMember == null}">
+      <a href="/member/login">로그인</a>
+    </th:block>
+
+    <th:block th:if="${session.loginMember != null}">
+      <span th:text="|${session.loginMember.memberNickname}님 환영합니다!|"></span>
+      <a href="/myPage/info">
+        <img th:with="user=#{user.default.image}"
+          th:src="${session.loginMember.profileImg ?: user}"
+          alt="프로필 이미지"
+          id="memberProfile">
+      </a>
+      <a href="/member/logout">
+        <img src="/images/logout.jpg" alt="로그아웃 이미지">
+      </a>
+    </th:block>
+
+  </section>
+
+</header>
+
+<!-- 네비바 -->
+<nav id="navigator">
+  <ul>
+    <li> 자취 요리
+      <ul class="nav-category nav-hidden">
+        <li><a href="/recipe/hot">Hot 자취요리</a></li>
+        <li><a href="/recipe/recollection">추억의 자취요리</a></li>
+        <li><a href="/recipe/random">랜덤 자취요리</a></li>
+        <li><a href="/recipe/refrigerator">냉장고를 부탁해</a></li>
+        <li><a href="/recipe/effectiveness">가성비 자취요리</a></li>
+      </ul>
+    </li>
+
+    <!--DB에서 게시판 정하고 나면 바꿔야함
+      (boardProject-boot에서 common/header.html nav 부분 참고)
+    -->
+    <li>이모저모
+      <ul class="nav-category nav-hidden">
+        <li><a href="/board/1">(★) 공지사항 (★)</a></li>
+        <li><a href="/board/2">자유게시판</a></li>
+        <li><a href="/board/3">공동 구매 모집</a></li>
+        <li><a href="/board/3">자취요리 레시피 공유</a></li>
+      </ul>
+    </li>
+
+    <li>기타
+      <ul class="nav-category nav-hidden">
+        <li><a href="etc/query">1:1 문의</a></li>
+        <li><a href="etc/benefit">멤버별 혜택</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<!-- 검색창-->
+<search>
+  <fieldset>
+    <input type="search" id="query" name="query" 
+      placeholder="검색어를 입력해 주세요(10자이내)"
+      maxlength="10" autocomplete="off">
+    <button> 검색</button>
+  </fieldset>
+</search>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="edu.kh.project.myPage.model.mapper.MyPageMapper">
+<!-- 내 정보 수정, 이미지, 닉네임, 전화번호, 주소 -->
+	<update id="updateInfo">
+	</update>
+
+<!-- 비밀번호 변경 -->
+
+<!-- 회원 탈퇴 -->
+</mapper>

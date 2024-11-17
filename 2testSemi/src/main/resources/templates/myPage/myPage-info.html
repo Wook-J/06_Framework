@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="|${session.loginMember.memberNickname}님의 My Page입니다.|"></title>
+</head>
+
+<body>
+  <main>
+    <!-- header (홈버튼, 홈페이지 이름, 로그인버튼, 네비바, 검색창)-->
+    <th:block th:replace="~{common/header}"></th:block>
+
+    <section>
+      <img th:with="user=#{user.default.image}" 
+        th:src="${session.loginMember.profileImg ?: user}"
+        alt="유저 프로필">
+    </section>
+
+    <section>
+      <div>
+        <h3><a href="#">내가 쓴 글</a></h3>
+        <h3><a href="#">좋아요 누른 게시글</a></h3>
+      </div>
+      <div>
+        <h3><a href="/myPage/update">내 정보 수정</a></h3>
+        <h3><a href="/myPage/changePw">비밀번호 변경</a></h3>
+        <h3><a href="/myPage/secession">회원 탈퇴</a></h3>
+      </div>
+    </section>
+  </main>
+
+  <th:block th:replace="~{common/footer}"></th:block>
+
+  <script src="/js/myPage/myPage.js"></script>
+</body>
+
+</html>

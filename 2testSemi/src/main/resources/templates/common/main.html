@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="#{app.name}">messages.properties 값 출력</title>
+
+  <!-- CSS, font awesome 라이브러리-->
+  <th:block th:replace="~{common/common}"></th:block>
+</head>
+
+<body>
+
+  <main>
+    <!-- header (홈버튼, 홈페이지 이름, 로그인버튼, 네비바, 검색창)-->
+    <th:block th:replace="~{common/header}"></th:block>
+
+    <!-- 오른쪽 쿠키부분(우선순위 낮음)-->
+    <th:block th:replace="~{common/cookie}"></th:block>
+
+    <!-- 메인 이미지 (가장 중요한 사진)-->
+    <section class="up-content">
+      <h1>메인 이미지 (가장 중요한 사진)</h1>
+    </section>
+
+    <!-- 메인 이미지(레시피 설명) -->
+    <section class="down-contetn">
+      <div> 메인 이미지 (아래부분1)</div>
+      <div> 메인 이미지 (아래부분2)</div>
+    </section>
+    
+  </main>
+
+  <!-- footer (CopyRight, 팀 정보 등) (메세지 출력)-->
+  <th:block th:replace="~{common/footer}"></th:block>
+
+  <script src="/js/main.js"></script>
+</body>
+
+</html>

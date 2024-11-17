@@ -115,8 +115,13 @@ const resetMemberNo = document.querySelector("#resetMemberNo");   // input (회�
 
 const resetPassword = () => {
 
+  if(resetMemberNo.value.trim().length == 0){
+    alert("회원번호를 입력해주세요");
+    return;
+  }
+
   fetch("/member/resetPw", {
-    method: "POST",
+    method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: resetMemberNo.value
   })
@@ -142,8 +147,13 @@ const restorationMemberNo = document.querySelector("#restorationMemberNo");   //
 
 const restoration = () => {
 
+  if(restorationMemberNo.value.trim().length == 0){
+    alert("회원번호를 입력해주세요");
+    return;
+  }
+
   fetch("/member/restoration", {
-    method: "POST",
+    method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: restorationMemberNo.value
   })

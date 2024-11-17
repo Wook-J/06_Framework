@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>내 정보 수정</title>
+</head>
+
+<body>
+  <main>
+    <!-- header (홈버튼, 홈페이지 이름, 로그인버튼, 네비바, 검색창)-->
+    <th:block th:replace="~{common/header}"></th:block>
+
+    <section>
+      <a href="/myPage/info">마이 페이지</a>
+      <span> > </span>
+      <a href="/myPage/update">내 정보 수정</a>
+    </section>
+
+    <form action="update" method="POST" id="updateInfo">
+      <section>
+        프로필 이미지 부분...? 어캐하지...?
+      </section>
+
+      <section>
+        <label>닉네임</label>
+        <input type="text" name="memberNickname" id="memberNickname"
+          th:value="${session.loginMember.memberNickname}" maxlength="10">
+        <input type="hidden" id="currentNickname"
+          th:value="${session.loginMember.memberNickname}">
+      </section>
+
+      <!-- board Project 부분과 다른부분(DB에서 테이블 만들 떄 수정필요)
+      <section>
+        <label>이름</label>
+        <input type="text" name="memberName" id="memberName"
+        th:value="${session.loginMember.memberName}" maxlength="10">
+      </section>
+      -->
+
+      <section>
+        <label>전화번호</label>
+        <input type="text" name="memberTel" maxlength="11" id="memberTel"
+          th:value="${session.loginMember.memberTel}">
+      </section>
+
+      <section>
+        <label>주소</label>
+        <div>
+          <input type="text" name="memberAddress" placeholder="우편번호" id="postcode"
+            th:value="${postcode}" readonly>
+          <button type="button" id="searchAddress">검색</button>
+        </div>
+        <div>
+          <input type="text" name="memberAddress" placeholder="도로명/지번 주소" id="address"
+            th:value="${address}" readonly>
+        </div>
+        <div>
+          <input type="text" name="memberAddress" placeholder="상세 주소" id="detailAddress"
+            th:value="${detailAddress}">
+        </div>
+      </section>
+
+      <section>
+        <button> 수정하기 </button>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button"> 취소</button>
+      </section>
+    </form>
+
+  </main>
+
+  <th:block th:replace="~{common/footer}"></th:block>
+
+  <script src="/js/myPage/myPage.js"></script>
+
+</body>
+
+</html>
