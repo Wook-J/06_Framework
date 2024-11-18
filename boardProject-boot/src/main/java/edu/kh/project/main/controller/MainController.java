@@ -13,6 +13,12 @@ public class MainController {
 		// 접두사(classpath:/templates/), 접미사(.html)
 		return "common/main";
 	}
+	
+//	@RequestMapping("/")	// "/" 요청 매핑
+//	public String mainPage() {
+//		// 접두사(classpath:/templates/), 접미사(.html)
+//		return "index";
+//	}
 
 	// loginFilter -> loginError 리다이렉트
 	// -> message 만들어서 메인페이지로 리다이렉트

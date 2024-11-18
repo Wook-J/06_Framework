@@ -1,0 +1,31 @@
+TABLE BOOK
+	BOOK_NO, TITLE, WRITER, PRICE
+SEQUENCE SEQ_BOOK_NO
+1, 불변의 법칙, 모건 하우절, 22500
+2, 일류의 조건, 사이토 다카시, 17820
+3, 나를~~, 마티아스 뇔케, 16020
+4, 철도원 삼대, 황석영, 18000
+5, 꽃길이~, 오평선, 15120
+
+index.html
+버튼 (책목록 조회)
+
+fetch 요청주소("/book/selectAllList")
+return 형태 text( )  --> ??? .json( ) 이어야 함  (★)
+
+li.textContent = book.title  --> textContent?? innerTEXT 아니었나..? -> 있음
+
+appendChild(li) --> 이런함수 있나..? -> 있음
+
+BookController
+@Controller, @RequiredArgsConstructor, @RequestMapping("book")
+필드명 : BookService service -> final 선언 안함 (★)
+메서드 : selectAllList() -> @ResponseBody 없음 (★)
+
+Book : 필드명(bookPrice)     // TABLE 컬럼명(PRICE) 다름 (★)
+bookNo, bookTitle, bookWriter, bookPrice
+
+SQL문은 잘 작성 가정
+
+li.textContent = book.title -> key값을 불러와야 하는데 Book DTO에서의 필드명과 다름
+(★)

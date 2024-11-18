@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="|${session.loginMember.memberNickname}님의 비밀번호 변경|"></title>
+</head>
+
+<body>
+  <main>
+
+    <th:block th:replace="~{common/header}"></th:block>
+
+    <section>
+      <a href="/myPage/info">마이 페이지</a>
+      <span> > </span>
+      <a href="/myPage/changePw">비밀번호 변경</a>
+    </section>
+
+  </main>
+
+  <th:block th:replace="~{common/footer}"></th:block>
+
+  <script src="/js/myPage/myPage.js"></script>
+</body>
+
+</html>

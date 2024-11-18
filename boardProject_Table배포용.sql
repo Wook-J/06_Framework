@@ -622,6 +622,16 @@ COMMIT;
 
 ----------------------------------------------------------
 
+-- 여러행 INSERT 구문 테스트
+-- 하나의 서브쿼리 내에 시퀀스번호 여러번 사용 불가!
+INSERT INTO "BOARD_IMG" (
+	SELECT SEQ_IMG_NO.NEXTVAL, '경로1', '원본1', '변경1', 1, 2001 FROM DUAL
+	UNION
+	SELECT SEQ_IMG_NO.NEXTVAL, '경로2', '원본2', '변경2', 1, 2001 FROM DUAL
+	UNION
+	SELECT SEQ_IMG_NO.NEXTVAL, '경로3', '원본3', '변경3', 1, 2001 FROM DUAL
+);
+
 -- SEQ_IMG_NO 시퀀스의 다음 값을 반환하는 함수 생성
 
 -- 전체 드래그 ALT+X
@@ -639,9 +649,19 @@ BEGIN
 END;
 -- 여기까지 긁기
 
+SELECT NEXT_IMG_NO() FROM DUAL;
 
 
+-- 여러행 INSERT 구문 테스트2!!
+INSERT INTO "BOARD_IMG" (
+	SELECT NEXT_IMG_NO(), '경로1', '원본1', '변경1', 1, 2001 FROM DUAL
+	UNION
+	SELECT NEXT_IMG_NO(), '경로2', '원본2', '변경2', 1, 2001 FROM DUAL
+	UNION
+	SELECT NEXT_IMG_NO(), '경로3', '원본3', '변경3', 1, 2001 FROM DUAL
+);
 
+SELECT * FROM BOARD_IMG;
 
 
 
@@ -759,6 +779,26 @@ OR PARTICIPANT = 1
 ORDER BY MAX_MESSAGE_NO DESC NULLS LAST;
 
 
+--- 241118 시험용 SQL 예시문 ---------------------------------------------------------------
 
+CREATE TABLE "BOOK" (
+    BOOK_NO NUMBER PRIMARY KEY,
+    TITLE VARCHAR(100) NOT NULL,
+    WRITER VARCHAR(50) NOT NULL,
+    PRICE NUMBER
+);
 
+CREATE SEQUENCE SEQ_BOOK_NO;
 
+INSERT INTO BOOK VALUES (SEQ_BOOK_NO.NEXTVAL, '불변의 법칙', '모건 하우절', 22500);
+INSERT INTO BOOK VALUES (SEQ_BOOK_NO.NEXTVAL, '일류의 조건', '사이토 다카시', 17820);
+INSERT INTO BOOK VALUES (SEQ_BOOK_NO.NEXTVAL, '나를 소모하지 않는 현명한 태도에 관하여', '마티아스 뇔케', 16020);
+INSERT INTO BOOK VALUES (SEQ_BOOK_NO.NEXTVAL, '철도원 삼대', '황석영', 18000);
+INSERT INTO BOOK VALUES (SEQ_BOOK_NO.NEXTVAL, '꽃길이 따로 있나, 내 삶이 꽃인 것을', '오평선', 15120);
+
+SELECT * FROM BOOK;
+COMMIT;
+
+DROP TABLE "BOOK";
+
+------세미 연습용 DB ------------------------------------------------------------
