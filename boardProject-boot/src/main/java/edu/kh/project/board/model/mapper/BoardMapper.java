@@ -35,4 +35,13 @@ public interface BoardMapper {
 	 */
 	Board selectOne(Map<String, Integer> map);
 
+	/* ********** 게시글 좋아요 체크/해제 관련 ********** */
+	int deleteBoardLike(Map<String, Integer> map);	// 좋아요 해제
+	int insertBoardLike(Map<String, Integer> map);	// 좋아요 체크
+	int selectLikeCount(int boardNo);				// 게시글 좋아요 개수조회
+
+	/* ********** 조회 수 1 증가 관련 ********** */
+	int updateReadCount(int boardNo);				// 조회 수 1 증가
+	int selectReadCount(int boardNo);				// 조회 수 조회
+
 }
