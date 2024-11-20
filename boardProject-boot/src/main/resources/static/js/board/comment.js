@@ -9,7 +9,7 @@ console.log("test");
    HTTP Method(GET,POST,PUT,DELETE) 를 이용해
    지정된 자원에 대한 CRUD 진행
 
-  자원의 이름(주소)는 하나만 지정 (ex. /comment)
+  자원의 이름(주소)은 하나만 지정 (ex. /comment)
    
   삽입 == POST    (Create)
   조회 == GET     (Read)
@@ -162,7 +162,7 @@ const selectCommentList = () => {
 
 
 
-//selectCommentList();
+// selectCommentList();
 
 // -----------------------------------------------------------------------
 
@@ -311,7 +311,7 @@ const insertChildComment = (parentCommentNo, btn) => {
   fetch("/comment", {
     method : "POST",
     headers : {"Content-Type" : "application/json"},
-    body : JSON.stringify(data) // data 객체를 JSON 문자열로 변환
+    body : JSON.stringify(data) // data(JS객체)를 JSON 문자열로 변환
   })
 
   .then(response => response.text())

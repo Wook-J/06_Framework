@@ -1,0 +1,15 @@
+<form action="profile" method="POST" name="myPageFrm" id="profile" enctype="multipart/form-data">
+    <div class="profile-image-area">
+        <img th:with="user=#{user.default.image}" 
+          th:src="${session.loginMember.profileImg ?: user}"
+          id="profileImg" >
+    </div>
+
+    <span id="deleteImage">x</span>
+
+    <div class="profile-btn-area">
+        <label for="imageInput">이미지 선택</label>
+        <input type="file" name="profileImg" id="imageInput" accept="image/*">
+        <button>변경하기</button>
+    </div>
+</form>

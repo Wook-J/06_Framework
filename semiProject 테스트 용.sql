@@ -623,7 +623,7 @@ SELECT * FROM SEMI_RECIPE;
 
 COMMIT;
 
------ 레시피별 요리재료 (--> 바꿔야 함) -----
+----- 레시피별 요리재료  -----
 --- (레시피명, 재료용량, 재료번호, 레시피번호)
 SELECT * FROM SEMI_RECIPE_INGREDIENT;
 
@@ -681,7 +681,7 @@ COMMIT;
 
 ------ 이하 mapper.xml 에서 수행 하기전 테스트하는 용도 -------------------------------------------
 
------ 레시피별 요리재료 TABLE에서 RECIPE_NO = 1(RECIPE_NAME = 간장계란밥) 의 재료 및 필요용량, 가격 가져오기
+----- 레시피별 요리재료 TABLE에서 ""RECIPE_NAME = 간장계란밥"" 의 재료 및 필요용량, 가격 가져오기
 SELECT sri.RECIPE_NO, sr.RECIPE_NAME "요리명",
 	sis.INGREDIENT_NAME "재료명", sri.INGRED_VOLUME "필요용량", sis.PRICE_PER_INGRED "단위당 가격",
 	sr.MEMBER_NO, sm.MEMBER_NAME "회원명"
