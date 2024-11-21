@@ -2,7 +2,9 @@ package edu.kh.project.board.model.service;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -31,6 +33,8 @@ public class EditBoardServiceImpl implements EditBoardService{
 	
 	@Value("${my.board.folder-path}")
 	private String folderPath;
+	
+	/* *************** 메서드 *************** */
 	
 	@Override
 	public int boardInsert(Board inputBoard, List<MultipartFile> images) throws Exception {
@@ -99,6 +103,72 @@ public class EditBoardServiceImpl implements EditBoardService{
 		}
 		
 		return boardNo;
+	}
+	
+	@Override	// 게시글 수정
+	public int boardUpdate(Board inputBoard, List<MultipartFile> images, String deleteOrderList) throws Exception {
+		
+		// 1. 게시글 부분(제목/내용) 수정
+		int result = mapper.boardUpdate(inputBoard);
+		
+		// 수정 실패 시 바로 리턴
+		if(result == 0) return 0;
+		
+		// 2. 기존에 있었는데 삭제된 이미지가 있는 경우 (여기 not 연산자 잘보기!!)
+		if(deleteOrderList != null && !deleteOrderList.equals("")) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("deleteOrderList", deleteOrderList);
+			map.put("boardNo", inputBoard.getBoardNo());
+			
+			result = mapper.deleteImage(map);
+			
+			// 삭제실패한 경우 롤백
+			if(result == 0) throw new RuntimeException();
+		}
+		
+		// 3. 선택한 파일이 존재할 경우 해당 파일정보만 모아두는 List 생성
+		
+		List<BoardImg> uploadList = new ArrayList<>();
+		
+		// images 리스트에서 하나씩 꺼내 파일이 있는지 검사
+		for(int i=0; i<images.size(); i++) {
+			
+			if(!images.get(i).isEmpty()) {		// 실제 선택된 파일이 존재하는 경우				
+				String originalName = images.get(i).getOriginalFilename();	// 원본명
+				String rename = Utility.fileRename(originalName);			// 변경명
+				
+				BoardImg img = BoardImg.builder()							// DTO 생성
+						.imgOriginalName(originalName)
+						.imgRename(rename)
+						.imgPath(webPath)
+						.imgOrder(i)
+						.boardNo(inputBoard.getBoardNo())
+						.uploadFile(images.get(i))
+						.build();
+				
+				uploadList.add(img);										// uploadList 에 추가
+				
+				// 4. 업로드 하려는 이미지 정보(img)를 이용해서 "수정 또는 삽입" 수행
+				// 4-1) 기존에 있었는데 새 이미지로 변경(수정)
+				result = mapper.updateImage(img);
+				
+				// 4-2) 수정 실패(기존 해당순서에 이미지 없는 경우) 시 새 이미지 추가(삽입)
+				if(result == 0) result = mapper.insertImage(img);
+			}
+			
+			// 수정 또는 삭제 실패한 경우
+			if(result == 0) throw new RuntimeException();
+		}
+		
+		// 선택한 파일이 없을 경우
+		if(uploadList.isEmpty()) return result;
+		
+		// 수정 또는 새 이미지 파일을 서버에 저장
+		for(BoardImg img : uploadList) {
+			img.getUploadFile().transferTo(new File(folderPath + img.getImgRename()));
+		}
+		
+		return result;
 	}
 	
 }

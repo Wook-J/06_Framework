@@ -150,7 +150,7 @@ form.addEventListener("submit", e => {
 	const input = document.createElement("input");
 
 	// Array.from() : Set -> Array로 변환
-	// 배열.toString() : [1,2,3] --> "1,2,3" 변환
+	// 배열.toString() : [1,2,3] --> "1,2,3" 변환 (그대로 SQL 문법에서 사용할 예정)
 	input.value = Array.from(deleteOrderList).toString();
 
 	console.log("삭제된 이미지 리스트 : " + input.value);
