@@ -94,4 +94,12 @@
 	INSERT INTO "BOARD_IMG"
 	VALUES (NEXT_IMG_NO(), #{imgPath}, #{imgOriginalName}, #{imgRename}, ${imgOrder}, ${boardNo})
 	</insert>
+	
+	<update id="boardDelete">
+	UPDATE "BOARD"
+	SET BOARD_DEL_FL = 'Y'
+	WHERE BOARD_CODE = ${boardCode}
+		AND BOARD_NO = ${boardNo}
+		AND MEMBER_NO = ${memberNo}
+	</update>
 </mapper>

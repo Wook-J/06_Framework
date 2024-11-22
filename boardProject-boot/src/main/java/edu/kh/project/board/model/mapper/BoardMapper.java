@@ -44,4 +44,17 @@ public interface BoardMapper {
 	int updateReadCount(int boardNo);				// 조회 수 1 증가
 	int selectReadCount(int boardNo);				// 조회 수 조회
 
+	/** 검색 조건이 맞는 게시글 수 조회
+	 * @param paramMap (key, query, boardCode)
+	 * @return count
+	 */
+	int getSearchCount(Map<String, Object> paramMap);
+
+	/** 검색 결과 목록 조회
+	 * @param paramMap (key, query, boardCode)
+	 * @param rowBounds
+	 * @return boardList
+	 */
+	List<Board> selectSearchList(Map<String, Object> paramMap, RowBounds rowBounds);
+
 }

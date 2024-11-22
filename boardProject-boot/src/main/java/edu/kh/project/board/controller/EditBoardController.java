@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
@@ -194,6 +195,46 @@ public class EditBoardController {
 		}
 		
 		ra.addFlashAttribute("message", message);
+		return "redirect:" + path;
+	}
+	
+	// /editBoard/1/2000/delete?cp=1
+	/** 게시글 삭제
+	 * @param loginMember : 현재 로그인한 회원 번호 사용 예정
+	 * @param boardCode : 게시판 종류 번호
+	 * @param boardNo : 게시글 번호
+	 * @param cp : 삭제 시 게시글 목록으로 리다이렉트 할 때 사용할 페이지 번호
+	 * @param ra : redirect 시 request scope 로 값 전달용
+	 * @return
+	 */
+	@RequestMapping(value="{boardCode:[0-9]+}/{boardNo:[0-9]+}/delete", method={RequestMethod.GET, RequestMethod.POST})
+	public String boardDelete(@SessionAttribute("loginMember") Member loginMember,
+							@PathVariable("boardCode") int boardCode,
+							@PathVariable("boardNo") int boardNo,
+							@RequestParam(value="cp", required=false, defaultValue="1") int cp,
+							RedirectAttributes ra) {
+		
+		Map<String, Integer> map = new HashMap<>();
+		map.put("boardCode", boardCode);
+		map.put("boardNo", boardNo);
+		map.put("memberNo", loginMember.getMemberNo());
+		
+		int result = service.boardDelete(map);
+		
+		String path = null;
+		String message = null;
+		
+		if(result > 0) {
+			path = String.format("/board/%d?cp=%d", boardCode, cp);	// /board/1?cp=7
+			message = "게시글이 삭제되었습니다";
+			
+		} else {
+			path = String.format("/board/%d/%d?cp=%d", boardCode, boardNo, cp);
+			message = "게시글 삭제 실패";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
 		return "redirect:" + path;
 	}
 }

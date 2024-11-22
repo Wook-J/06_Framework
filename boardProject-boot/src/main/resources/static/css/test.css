@@ -1,0 +1,19 @@
+
+
+#container{
+  display: flex;
+}
+
+#div1{
+  border: 1px solid black;
+  height: 200px;
+}
+
+#div2 {
+  border: 1px solid orange;
+  height: 200px;
+}
+
+.hidden {
+  display: none;
+}

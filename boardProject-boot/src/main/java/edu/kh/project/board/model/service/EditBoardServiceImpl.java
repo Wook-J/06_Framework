@@ -171,4 +171,8 @@ public class EditBoardServiceImpl implements EditBoardService{
 		return result;
 	}
 	
+	@Override	// 게시글 삭제
+	public int boardDelete(Map<String, Integer> map) {
+		return mapper.boardDelete(map);
+	}
 }

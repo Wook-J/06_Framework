@@ -14,6 +14,11 @@ public class MainController {
 		return "common/main";
 	}
 	
+	@GetMapping("test")
+	public String testPage() {
+		return "common/test";
+	}
+	
 //	@RequestMapping("/")	// "/" 요청 매핑
 //	public String mainPage() {
 //		// 접두사(classpath:/templates/), 접미사(.html)

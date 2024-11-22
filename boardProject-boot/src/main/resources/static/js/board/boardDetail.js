@@ -103,6 +103,8 @@ if (deleteBtn2 != null) {
     }
 
     const url = location.pathname.replace("board", "editBoard") + "/delete";
+    // location.pathname : 쿼리스트링 부분은 나오지 않음!
+    // /board/1/2004 -> /editBoard/1/2004/delete
 
     // form태그 생성
     const form = document.createElement("form");
