@@ -1,0 +1,18 @@
+개발자가 특정시기에 오래된 로그를 삭제한다 -> 직접하기 귀찮음...!
+-> 스프링에게 시킴
+
+이미지 삭제 스케줄러
+서버컴퓨터 C:/uploadFiles/...
+DB에 관련정보가 삽입된 상태(이미지 경로, rename ...)
+--> 서로 싱크가 맞지 않을 수 있음
+
+스프링 스케쥴러를 활성화하는 어노테이션이 필요함!
+BoardProjectBootApplication.java 에 추가!!
+@EnableScheduling	// 스프링 스케쥴러를 이용하기 위한 활성화 어노테이션
+
+common.scheduling 패키지
+ImageDeleteScheduling
+@Slf4j
+@Component
+@PropertySource("classpath:/config.properties")
+

@@ -669,9 +669,23 @@ INSERT INTO "BOARD_IMG" (
 
 SELECT * FROM BOARD_IMG;
 
+-- 11/25 스케쥴러 이용하는 구간 -------------------------------------------------------
+-- 마지막 '/'를 찾고 그 다음 문자부터 SUBSTR
+-- /myPage/profile/20241118100856_00001.JPG 여기서 파일명만 가져가고 싶은것임!
+SELECT SUBSTR(PROFILE_IMG, INSTR(PROFILE_IMG, '/', -1) + 1) "rename" 
+FROM "MEMBER"
+WHERE PROFILE_IMG IS NOT NULL
 
+UNION				
 
+SELECT CAST(IMG_RENAME AS VARCHAR2(300)) "rename"
+FROM "BOARD_IMG";
 
+-- 위 2개를 합치려는 경우
+-- SQL Error [12704] [72000]: ORA-12704: 문자 집합이 일치하지 않습니다
+-- MEMBER 테이블의 PROFILE_IMG의 자료형 VARCHAR2(300)
+-- BOARD_IMG 테이블의 IMG_RENAME의 자료형 NVARCHAR2(50)
+--> CAST(컬럼명 AS 자료형) 을 통해 자료형을 맞추면 됨
 
 ----------------------------------------------------------
 /* 채팅 */

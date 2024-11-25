@@ -133,6 +133,7 @@ public class MyPageController {
 		
 		if(result > 0) {
 			message = "회원 정보 수정 성공!!";
+//			message = "비밀번호가 변경되었습니다. 변경된 비밀번호로 로그인해 주세요.";
 			
 			// loginMember 새로 세팅 (우리가 방금 바꾼 값으로)
 			// -> loginMember는 세션에 저장된 로그인한 회원 정보가 저장된 객체를 참조하고 있음!!
