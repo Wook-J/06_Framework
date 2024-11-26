@@ -1,0 +1,4 @@
+memberlogin 부분(service, serviceimpl, mapper)에서 로그인 부분 throws Exception 해놓음
+(controller는 try-catch 문 작성)
+
+member-mapper에서 SQL문 마지막에 ; 추가

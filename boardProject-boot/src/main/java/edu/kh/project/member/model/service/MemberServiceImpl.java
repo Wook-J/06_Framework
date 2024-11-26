@@ -27,7 +27,7 @@ public class MemberServiceImpl implements MemberService{
 	private BCryptPasswordEncoder bcrypt;
 
 	@Override		// 로그인 서비스
-	public Member login(Member inputMember) {
+	public Member login(Member inputMember) throws Exception {
 
 		// 암호화 진행 (bcrypt라는 암호화 패턴)
 		
