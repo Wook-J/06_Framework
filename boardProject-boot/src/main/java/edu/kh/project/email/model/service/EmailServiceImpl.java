@@ -69,7 +69,7 @@ public class EmailServiceImpl implements EmailService{
 			// ex) 인증번호입니다 : wesdwes222 라고 이메일 보낼 경우는 아래처럼 간단히 가능
 			// helper.setText("인증번호 입니다 : " + authKey);
 			
-			// 메일에 이미지(로고) 첨부
+			// 메일에 이미지(로고) 첨부 (html에서 cid:logo로 부를 수 있음)
 			helper.addInline("logo", new ClassPathResource("static/images/logo.jpg"));
 			
 			// 실제로 메일 발송
@@ -110,6 +110,8 @@ public class EmailServiceImpl implements EmailService{
 	/* 인증번호 발급 메서드 : UUID(Universally Unique IDentifier)를 사용하여 인증키 생성
 	 * -> 전 세계에서 고유한 식별자를 생성하기 위한 표준 (매우 낮은 확률로 중복되는 식별자 생성)
 	 *    주로 데이터베이스에서 기본 키, 고유한 식별자를 생성해야 할 때 사용
+	 * 
+	 * + 128비트의 숫자이며 32자리의 16진수로 표현됨
 	 */ 
 	private String createAuthKey() {
 		return UUID.randomUUID().toString().substring(0, 6);

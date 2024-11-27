@@ -87,7 +87,7 @@ public class MemberController {
 				// 쿠키 객체 생성(K:V)
 				// import jakarta.servlet.http.Cookie;
 				Cookie cookie = new Cookie("saveId", loginMember.getMemberEmail());
-				// 내부 : saveId=user01@kh.or.kr
+				// 내부 : saveId(이름) = user01@kh.or.kr(값)
 				
 				// 쿠키가 적용될 경로 설정
 				// -> 클라이언트가 어떤 요청을 할 때 쿠키가 첨부될 지 지정

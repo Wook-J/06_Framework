@@ -1,0 +1,57 @@
+[DB]
+테이블명 : CATEGORY
+컬럼 : CATEGORY_NO, CATEGORY_NAME
+(1, '생활가전'), (2, '편의품'), (3, '식료품')
+
+[product-mapper.xml]
+id="selectCategoryList"
+SQL 문 문제 없음
+
+[CategoryInterceptor.class]
+public class CategoryInterceptor implements HandlerInterceptor{
+
+  @Autowired
+  private ProductService service;
+
+  @Override
+  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+  throws Exception {
+
+    ServletContext application = request.getServletContext();
+
+    if(application.getAttribute("categoryList") == null) {
+      List<Map<String, Object>> categoryList = service.selectCategoryList();
+      application.setAttribute("categoryList", categoryList);
+    }
+
+    return HandlerInterceptor.super.preHandle(request, response, handler);
+  }
+
+}
+
+[InterceptorConfig.class]
+							// @Configuration 어노테이션 없음
+public class InterceptorConfig implements WebMvcConfigurer{
+
+  public CategoryInterceptor categoryInterceptor() {		// @Bean 어노테이션 없음
+    return new CategoryInterceptor();
+  }
+
+  @Override
+  public void addInterceptors(InterceptorRegistry registry) {
+
+    registry.addInterceptor( categoryInterceptor() )
+    .addPathPatterns("/**")
+    .excludePathPatterns("/css/**", "/js/**", "/images/**", "/favicon.ico");
+  }
+
+}
+
+[index.html]
+
+td부분 : JS에서 구현하려는 경우 쓰는 문법
+tr th:each="category : ${categoryList}"			// application scope에서 불러올땐 application. 필요함
+
+
+
+<p><br></p><table class="table table-bordered"><tbody><tr><td><br></td><td><br></td><td><br></td><td><br></td></tr><tr><td><br></td><td><br></td><td><br></td><td><br></td></tr><tr><td><br></td><td><br></td><td><br></td><td><br></td></tr><tr><td><br></td><td><br></td><td><br></td><td><br></td></tr></tbody></table><p><img src="http://localhost/uploads/board/d87ef00a-cdba-4f77-a445-a78ee495391a.png" style="width: 50%;">bbb<span style="font-family: &quot;Arial Black&quot;;"></span><span style="font-size: 50px;"></span></p>

@@ -44,8 +44,7 @@
 
     <th:block th:each="boardType : ${application.boardTypeList}">
       <li>
-        <a th:text="${boardType.boardName}"
-        th:href="@{/board/{boardCode}(boardCode=${boardType.boardCode})}">게시판이름</a>
+        <a th:text="${boardType.boardName}" th:href="@{/board/{boardCode}(boardCode=${boardType.boardCode})}">게시판이름</a>
       </li>
     </th:block>
 
@@ -56,3 +55,33 @@
     </li>
   </ul>
 </nav>
+
+
+<div>
+  <table>
+
+    <thead>
+
+      <tr>
+        <th>카테고리 번호</th>
+        <th>카테고리 이름</th>
+      </tr>
+    </thead>
+
+
+    <tbody>
+
+
+
+      <tr th:each="boardType : ${application.boardTypeList}">
+        <td>[[${boardType.boardCode}]]</td>
+        <td>[[${boardType.boardName}]]</td>
+
+
+      </tr>
+
+
+    </tbody>
+
+  </table>
+</div>
