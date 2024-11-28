@@ -1,0 +1,12 @@
+RollingFileAppender 를 사용할 예정
+일자별로 + 특정일에 log 가 많이 찍히면 나눠서
+
+SLF4J (Simple Logging Facade for Java)
+- 추상화 계층을 제공(PSA)
+
+JDBC -> 어떤 DBMS(오라클, MyBatis 등) 든 자바랑 연결해서 사용할 수 있게끔 해주는 API
+(PSA 방식 적용) 
+
+SLF4J 사용 시 내부적으로 Logger(인터페이스) 제공
+
+로그백 홈페이지 : https://logback.qos.ch/manual/introduction.html
