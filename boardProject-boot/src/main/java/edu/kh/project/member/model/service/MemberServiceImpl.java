@@ -97,6 +97,7 @@ public class MemberServiceImpl implements MemberService{
 		return mapper.signup(inputMember);
 	}
 	
+	@Transactional
 	@Override	// 회원조회 서비스(비동기)
 	public List<Member> selectList() {
 		return mapper.selectAll();
