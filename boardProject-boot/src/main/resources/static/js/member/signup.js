@@ -517,12 +517,12 @@ signUpForm.addEventListener("submit", e => {
 
 /* *************** 241118 시험 확인용 *************** */
 
-let bookListSection = document.getElementById("bookListSection");
+// let bookListSection = document.getElementById("bookListSection");
 
-const ul = document.createElement("ul");
+// const ul = document.createElement("ul");
 
-var li = document.createElement("li");
-loginEmail.textContent = book.title;
-ul.appendChild(li);
+// var li = document.createElement("li");
+// loginEmail.textContent = book.title;
+// ul.appendChild(li);
 
-bookListSection.appendChild(ul);
+// bookListSection.appendChild(ul);
