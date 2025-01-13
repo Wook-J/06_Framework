@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class APIController {
 	
-	private static final String serviceKey = "공공데이터에서 받은 서비스키";
+	private static final String serviceKey = "HEWaOsjZrFL5dYVD0%2B6QfWGgXcA5BAicqbDf2VdmPOvzzB10V8hCXC8MgXPM85%2BLjPr81M2CLm01jGZs8fRvrA%3D%3D";
 
 	@ResponseBody
 	@GetMapping("busInfo")

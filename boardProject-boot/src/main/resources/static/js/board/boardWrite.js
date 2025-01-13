@@ -81,7 +81,7 @@ for (let i = 0; i < inputImageList.length; i++) {
       return;
     }
 
-	// 파일을 재선택한 경우 updatePreview 이용하여 업데이트
+	  // 파일을 재선택한 경우 updatePreview 이용하여 업데이트
     updatePreview(file, i);
   })
 

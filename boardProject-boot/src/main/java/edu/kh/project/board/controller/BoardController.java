@@ -69,6 +69,7 @@ public class BoardController {
 			map = service.searchList(paramMap, cp);
 		}
 
+		log.debug("pagination : " + map.get("pagination"));
 		
 		// model 에 반환받은 값을 등록
 		model.addAttribute("pagination", map.get("pagination"));
